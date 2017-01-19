@@ -48,14 +48,14 @@ namespace TodoApp {
     }
 
     public void RunbyArg() {
-      FileHandler filehandler = new FileHandler();
+      TaskHandler taskhandler = new TaskHandler();
       if (!ExistArgs()) {
         //taskHandler.WriteManual();
       }
       else {
-        switch (task) {
+        switch (firstarg) {
           case "-l":
-            //taskhandler.writethelist
+            taskhandler.FileList();
             break;
           case "-a":
             //taskhandler.addtask

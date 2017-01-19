@@ -12,6 +12,7 @@ namespace TodoApp {
 
     public FileHandler() {
       _todoList = new List<string>();
+      ReadFromFile();
     }
 
     public List<string> TodoList {

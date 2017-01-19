@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 namespace TodoApp {
   class Program {
     static void Main(string[] args) {
+      ArgumentHandler arghandler = new ArgumentHandler(args);
+      arghandler.RunbyArg();
     }
   }
 }

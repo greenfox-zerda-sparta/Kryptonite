@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace TodoApp {
   class TaskHandler {
+    private FileHandler filehandler;
+
     public TaskHandler () {
-       
+      filehandler = new FileHandler();
     }
     
-    public void FileList(List<string> buff) {
+    public void FileList() {
       int i = 1;
-      foreach (string value in buff) {
+      foreach (string value in filehandler.TodoList) {
         if (value.First() == '0') {
           Console.WriteLine(i + " [ ] " + value.Substring(1));
         } else {
