@@ -4,6 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// main 0- 9
+// arguments 10-19
+// taskhandler 20-29
+// filehandler 30 - 39 
+
 namespace TodoApp {
   class ErrorHandler {
     private int errorcode;

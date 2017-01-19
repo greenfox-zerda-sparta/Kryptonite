@@ -58,7 +58,7 @@ namespace TodoApp {
             taskhandler.FileList();
             break;
           case "-a":
-            //taskhandler.addtask
+            taskhandler.AddToList(task);
             //filehandler.savethetasklist
             break;
           case "-r":
@@ -66,8 +66,8 @@ namespace TodoApp {
             //filehandler.savethetasklist
             break;
           case "-c":
-            //taskhandler.checkthetask
-            //filehandler.savethetasklist
+            //IsTaskaBiggerNumberThanZero
+            taskhandler.CheckItOnList(task);
             break;
           default:
             Console.WriteLine("wrong arguments :(");
