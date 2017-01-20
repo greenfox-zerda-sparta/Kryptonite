@@ -26,14 +26,14 @@ namespace TodoApp {
 
     public void AddToList(string TaskToBeAdded) {
       filehandler.TodoList.Add('0' + TaskToBeAdded);
-      filehandler.WriteToFile(filehandler.TodoList);
+      filehandler.WriteToFile();
     }
 
     public void CheckItOnList(string index) {
-      //IsIndexInTheList
+      filehandler.ReadFromFile();
       int counter = Int32.Parse(index) -1;
       filehandler.TodoList[counter] = "1" + filehandler.TodoList[counter].Substring(1);
-      filehandler.WriteToFile(filehandler.TodoList);
+      filehandler.WriteToFile();
     }
   }
 }

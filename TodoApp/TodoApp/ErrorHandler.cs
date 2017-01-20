@@ -22,6 +22,9 @@ namespace TodoApp {
         case 0:
           Console.WriteLine("No error!");
           break;
+        case 30:
+          Console.WriteLine("File-hiba.");
+          break;
       }
     }
   }
