@@ -66,22 +66,23 @@ namespace TodoApp {
             break;
           case "-a":
             taskhandler.AddToList(task);
-            //filehandler.savethetasklist
             break;
           case "-r":
             if (IsTaskBiggerNumberThanZero()) {
-              //taskhandler.deletetask
-            }
-            else {
-              errorhandler.WriteError(11);
+              try {
+                taskhandler.RemoveFromList(task);
+              } catch (Exception e) {
+                errorhandler.WriteError(21);
+              }
             }
             break;
           case "-c":
             if (IsTaskBiggerNumberThanZero()) {
-              taskhandler.CheckItOnList(task);
-            }
-            else {
-              errorhandler.WriteError(11);
+              try {
+                taskhandler.CheckItOnList(task);
+              } catch (Exception e) {
+                errorhandler.WriteError(21);
+              }
             }
             break;
           default:

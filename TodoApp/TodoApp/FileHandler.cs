@@ -41,8 +41,8 @@ namespace TodoApp {
       return _todoList;
     }
 
-    public void WriteToFile(List<string> todoList) {
-      _todoList = todoList;
+    public void WriteToFile(/*List<string> todoList*/) {
+      //_todoList = todoList;
       using (System.IO.StreamWriter writer = new System.IO.StreamWriter(_FILENAME)) {
         foreach (var list in _todoList) {
           writer.WriteLine(list);
