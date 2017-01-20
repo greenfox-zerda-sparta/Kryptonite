@@ -25,6 +25,9 @@ namespace TodoApp {
           Console.WriteLine("No Todo with this index in the list");
           Console.ResetColor();
           break;
+        case 30:
+          Console.WriteLine("File-hiba.");
+          break;
       }
     }
 
