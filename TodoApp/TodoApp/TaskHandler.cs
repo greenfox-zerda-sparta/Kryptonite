@@ -47,12 +47,7 @@ namespace TodoApp {
 
     public void RemoveFromList(string index) {
       int counter = Int32.Parse(index) - 1;
-      int capacity = filehandler.TodoList.Capacity;
-        filehandler.TodoList.RemoveAt(counter);
-
-      filehandler.ReadFromFile();
-      int counter = Int32.Parse(index) -1;
-      filehandler.TodoList[counter] = "1" + filehandler.TodoList[counter].Substring(1);
+      filehandler.TodoList.RemoveAt(counter);
       filehandler.WriteToFile();
     }
   }
