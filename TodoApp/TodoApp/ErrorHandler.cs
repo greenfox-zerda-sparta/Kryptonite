@@ -11,16 +11,14 @@ using System.Threading.Tasks;
 
 namespace TodoApp {
   class ErrorHandler {
-    private int errorcode;
 
-    public ErrorHandler(){
-      this.errorcode = -1;
-    }
-
-    public void WriteError(int _errorcode) {
+    public void WriteError(int errorcode) {
       switch (errorcode) {
-        case 0:
-          Console.WriteLine("No error!");
+        case 10:
+          Console.WriteLine("Wrong arguments!");
+          break;
+        case 11:
+          Console.WriteLine("Wrong argument: After -r must be a greater number than zero");
           break;
         case 30:
           Console.WriteLine("File-hiba.");

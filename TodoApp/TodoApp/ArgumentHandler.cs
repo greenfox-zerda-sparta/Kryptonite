@@ -10,7 +10,10 @@ namespace TodoApp {
     private string firstarg = "";
     private string task = "";
 
+    private ErrorHandler errorhandler;
+
     public ArgumentHandler(string[] args) {
+      errorhandler = new ErrorHandler();
       this.arguments = args;
       SetArguments();
     }
@@ -47,6 +50,10 @@ namespace TodoApp {
       return task;
     }
 
+    private bool IsTaskBiggerNumberThanZero() {
+      return Int32.Parse(task) > 0;
+    } 
+
     public void RunbyArg() {
       TaskHandler taskhandler = new TaskHandler();
       if (!ExistArgs()) {
@@ -62,15 +69,23 @@ namespace TodoApp {
             //filehandler.savethetasklist
             break;
           case "-r":
-            //taskhandler.deletetask
-            //filehandler.savethetasklist
+            if (IsTaskBiggerNumberThanZero()) {
+              //taskhandler.deletetask
+            }
+            else {
+              errorhandler.WriteError(11);
+            }
             break;
           case "-c":
-            //IsTaskaBiggerNumberThanZero
-            taskhandler.CheckItOnList(task);
+            if (IsTaskBiggerNumberThanZero()) {
+              taskhandler.CheckItOnList(task);
+            }
+            else {
+              errorhandler.WriteError(11);
+            }
             break;
           default:
-            Console.WriteLine("wrong arguments :(");
+            errorhandler.WriteError(10);
             break;
         }
       }
