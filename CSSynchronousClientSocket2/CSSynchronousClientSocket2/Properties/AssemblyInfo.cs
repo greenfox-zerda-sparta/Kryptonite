@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TodoApp")]
+[assembly: AssemblyTitle("CSSynchronousClientSocket2")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TodoApp")]
+[assembly: AssemblyProduct("CSSynchronousClientSocket2")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e88e2ca7-b764-47dc-8245-5468291fa036")]
+[assembly: Guid("d8e68bdd-1560-4e6e-b9a0-094a91f18d0c")]
 
 // Version information for an assembly consists of the following four values:
 //
