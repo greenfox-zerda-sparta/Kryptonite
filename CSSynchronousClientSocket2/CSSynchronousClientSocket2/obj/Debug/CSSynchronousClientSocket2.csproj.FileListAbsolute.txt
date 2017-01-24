@@ -4,3 +4,6 @@ c:\users\nagyz\documents\visual studio 2015\Projects\CSSynchronousClientSocket2\
 c:\users\nagyz\documents\visual studio 2015\Projects\CSSynchronousClientSocket2\CSSynchronousClientSocket2\obj\Debug\CSSynchronousClientSocket2.exe
 c:\users\nagyz\documents\visual studio 2015\Projects\CSSynchronousClientSocket2\CSSynchronousClientSocket2\obj\Debug\CSSynchronousClientSocket2.pdb
 c:\users\nagyz\documents\visual studio 2015\Projects\CSSynchronousClientSocket2\CSSynchronousClientSocket2\obj\Debug\CSSynchronousClientSocket2.csprojResolveAssemblyReference.cache
+c:\Users\nagyz\Source\Repos\Kryptonite\CSSynchronousClientSocket2\CSSynchronousClientSocket2\bin\Debug\CSSynchronousClientSocket2.exe.config
+c:\Users\nagyz\Source\Repos\Kryptonite\CSSynchronousClientSocket2\CSSynchronousClientSocket2\obj\Debug\CSSynchronousClientSocket2.exe
+c:\Users\nagyz\Source\Repos\Kryptonite\CSSynchronousClientSocket2\CSSynchronousClientSocket2\obj\Debug\CSSynchronousClientSocket2.pdb
