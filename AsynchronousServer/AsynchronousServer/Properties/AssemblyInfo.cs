@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CSSynchronousServerListener")]
+[assembly: AssemblyTitle("AsynchronousServer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CSSynchronousServerListener")]
+[assembly: AssemblyProduct("AsynchronousServer")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ab70bc57-849d-4335-ab87-d7a9355a85b8")]
+[assembly: Guid("cd29c733-bacd-4a17-a68d-a57a66c4bca2")]
 
 // Version information for an assembly consists of the following four values:
 //
