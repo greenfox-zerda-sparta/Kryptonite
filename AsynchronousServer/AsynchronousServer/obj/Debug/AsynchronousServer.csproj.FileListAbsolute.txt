@@ -1,0 +1,6 @@
+c:\users\nagyz\documents\visual studio 2015\Projects\AsynchronousServer\AsynchronousServer\bin\Debug\AsynchronousServer.exe.config
+c:\users\nagyz\documents\visual studio 2015\Projects\AsynchronousServer\AsynchronousServer\bin\Debug\AsynchronousServer.exe
+c:\users\nagyz\documents\visual studio 2015\Projects\AsynchronousServer\AsynchronousServer\bin\Debug\AsynchronousServer.pdb
+c:\users\nagyz\documents\visual studio 2015\Projects\AsynchronousServer\AsynchronousServer\obj\Debug\AsynchronousServer.exe
+c:\users\nagyz\documents\visual studio 2015\Projects\AsynchronousServer\AsynchronousServer\obj\Debug\AsynchronousServer.pdb
+c:\users\nagyz\documents\visual studio 2015\Projects\AsynchronousServer\AsynchronousServer\obj\Debug\AsynchronousServer.csprojResolveAssemblyReference.cache

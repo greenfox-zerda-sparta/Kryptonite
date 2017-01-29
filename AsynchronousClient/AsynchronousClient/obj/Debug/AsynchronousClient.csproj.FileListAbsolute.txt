@@ -1,0 +1,8 @@
+c:\users\nagyz\documents\visual studio 2015\Projects\AsynchronousClient\AsynchronousClient\bin\Debug\AsynchronousClient.exe.config
+c:\users\nagyz\documents\visual studio 2015\Projects\AsynchronousClient\AsynchronousClient\bin\Debug\AsynchronousClient.exe
+c:\users\nagyz\documents\visual studio 2015\Projects\AsynchronousClient\AsynchronousClient\bin\Debug\AsynchronousClient.pdb
+c:\users\nagyz\documents\visual studio 2015\Projects\AsynchronousClient\AsynchronousClient\obj\Debug\AsynchronousClient.exe
+c:\users\nagyz\documents\visual studio 2015\Projects\AsynchronousClient\AsynchronousClient\obj\Debug\AsynchronousClient.pdb
+c:\Users\nagyz\Source\Repos\Kryptonite\AsynchronousClient\AsynchronousClient\bin\Debug\AsynchronousClient.exe.config
+c:\Users\nagyz\Source\Repos\Kryptonite\AsynchronousClient\AsynchronousClient\obj\Debug\AsynchronousClient.exe
+c:\Users\nagyz\Source\Repos\Kryptonite\AsynchronousClient\AsynchronousClient\obj\Debug\AsynchronousClient.pdb

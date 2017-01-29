@@ -1,9 +1,0 @@
-c:\users\nagyz\documents\visual studio 2015\Projects\CSSynchronousServerListener\CSSynchronousServerListener\bin\Debug\CSSynchronousServerListener.exe
-c:\users\nagyz\documents\visual studio 2015\Projects\CSSynchronousServerListener\CSSynchronousServerListener\bin\Debug\CSSynchronousServerListener.exe.config
-c:\users\nagyz\documents\visual studio 2015\Projects\CSSynchronousServerListener\CSSynchronousServerListener\obj\Debug\CSSynchronousServerListener.exe
-c:\users\nagyz\documents\visual studio 2015\Projects\CSSynchronousServerListener\CSSynchronousServerListener\obj\Debug\CSSynchronousServerListener.pdb
-c:\users\nagyz\documents\visual studio 2015\Projects\CSSynchronousServerListener\CSSynchronousServerListener\bin\Debug\CSSynchronousServerListener.pdb
-c:\users\nagyz\documents\visual studio 2015\Projects\CSSynchronousServerListener\CSSynchronousServerListener\obj\Debug\CSSynchronousServerListener.csprojResolveAssemblyReference.cache
-c:\Users\nagyz\Source\Repos\Kryptonite\CSSynchronousServerListener\CSSynchronousServerListener\bin\Debug\CSSynchronousServerListener.exe.config
-c:\Users\nagyz\Source\Repos\Kryptonite\CSSynchronousServerListener\CSSynchronousServerListener\obj\Debug\CSSynchronousServerListener.exe
-c:\Users\nagyz\Source\Repos\Kryptonite\CSSynchronousServerListener\CSSynchronousServerListener\obj\Debug\CSSynchronousServerListener.pdb
