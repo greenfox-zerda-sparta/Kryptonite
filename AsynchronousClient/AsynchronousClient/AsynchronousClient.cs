@@ -151,7 +151,7 @@ namespace AsynchronousClient {
 
       // Begin sending the data to the remote device.
       client.BeginSend(byteData, 0, byteData.Length, 0,
-          new AsyncCallback(SendCallback), client);
+          new AsyncCallback(SendCallback), client);      
     }
 
     private static void SendCallback(IAsyncResult ar)
