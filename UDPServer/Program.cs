@@ -7,13 +7,15 @@ using System.Collections.Generic;
 namespace UDPServer {
   class UDPServer
   {
-    private const int listenPort = 7777;
-    private static void StartServer()
+    private const int LISTENPORT = 7777;
+
+    private static UdpClient listener;
+    private static List<IPEndPoint> endPointList;
+
+    private static void startServer()
     {
       bool isQuit = false;
-      UdpClient listener = new UdpClient(listenPort);
-      List<IPEndPoint> endPointList = new List<IPEndPoint>();
-      IPEndPoint clientEndPoint = new IPEndPoint(IPAddress.Any, listenPort);
+      IPEndPoint clientEndPoint = new IPEndPoint(IPAddress.Any, LISTENPORT);
       try
       {
         while (!isQuit)
@@ -45,7 +47,9 @@ namespace UDPServer {
 
     public static int Main()
     {
-      StartServer();
+      UdpClient listener = new UdpClient(LISTENPORT);
+      List<IPEndPoint> endPointList = new List<IPEndPoint>();
+      startServer();
       return 0;
     }
   }
