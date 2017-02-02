@@ -4,8 +4,8 @@
 
 public class Player2Move : MonoBehaviour {
   private float speed;
-  private Rigidbody rd;
-  private Vector3 spawnPosition = new Vector3(2, 1, 2);
+  public Rigidbody rd;
+  public Vector3 spawnPosition = new Vector3(2, 1, 2);
   private UDPconnection uc;
 
   private void Start()
@@ -18,8 +18,11 @@ public class Player2Move : MonoBehaviour {
   private void FixedUpdate()
   {
     string str = uc.incomeData();
-    spawnPosition.x = float.Parse(uc.SplitData(str)[0]);
-    spawnPosition.z = float.Parse(uc.SplitData(str)[1]);
+    float coordX = float.Parse(uc.SplitData(str)[0]);
+    float coordZ = float.Parse(uc.SplitData(str)[1]);
+
+    spawnPosition.x = coordX;
+    spawnPosition.z = coordZ;
     rd.position = spawnPosition;
   }
 }
