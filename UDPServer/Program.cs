@@ -4,17 +4,17 @@ using System.Net.Sockets;
 using System.Text;
 using System.Collections.Generic;
 
-namespace UDPServer {
+namespace UDPServer
+{
   class UDPServer
   {
     private const int LISTENPORT = 7777;
 
-    private static UdpClient listener;
-    private static List<IPEndPoint> endPointList;
-
-    private static void startServer()
+    private static void StartServer()
     {
       bool isQuit = false;
+      UdpClient listener = new UdpClient(LISTENPORT);
+      List<IPEndPoint> endPointList = new List<IPEndPoint>();
       IPEndPoint clientEndPoint = new IPEndPoint(IPAddress.Any, LISTENPORT);
       try
       {
@@ -45,12 +45,9 @@ namespace UDPServer {
       }
     }
 
-    public static int Main()
+    public static void Main()
     {
-      UdpClient listener = new UdpClient(LISTENPORT);
-      List<IPEndPoint> endPointList = new List<IPEndPoint>();
-      startServer();
-      return 0;
+      StartServer();
     }
   }
 }
