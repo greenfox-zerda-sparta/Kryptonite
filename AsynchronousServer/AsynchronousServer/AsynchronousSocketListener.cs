@@ -6,154 +6,88 @@ using System.Threading;
 using System.Collections.Generic;
 
 namespace AsynchronousServer {
+
   public class AsynchronousSocketListener {
-    // Thread signal.
+
     public static ManualResetEvent allDone = new ManualResetEvent(false);
     public static List<Socket> socketList;
+    public const string IPADDRESS = "127.0.0.1";
+    public const int PORT = 7777;
+  
+    public static void StartListening() {
+      IPAddress ipAddress = IPAddress.Parse(IPADDRESS);
+      IPEndPoint localEndPoint = new IPEndPoint(ipAddress, PORT);
 
-    public AsynchronousSocketListener()
-    {
-    }
-
-    public static void StartListening()
-    {
-      IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-      IPAddress ipAddress = ipHostInfo.AddressList[3];
-      IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
-
-      Socket listener = new Socket(AddressFamily.InterNetwork,
-          SocketType.Stream, ProtocolType.Tcp);
-
+      Socket listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
       socketList = new List<Socket>();
-      // Bind the socket to the local endpoint and listen for incoming connections.
-      try
-      {
+      
+      try {
         listener.Bind(localEndPoint);
         listener.Listen(100);
 
-        while (true)
-        {
-          // Set the event to nonsignaled state.
+        while (true) {
           allDone.Reset();
-
-          // Start an asynchronous socket to listen for connections.
           Console.WriteLine("Waiting for a connection...");
-          listener.BeginAccept(
-              new AsyncCallback(AcceptCallback),
-              listener);
-
-          // Wait until a connection is made before continuing.
+          listener.BeginAccept(new AsyncCallback(AcceptCallback), listener);
           allDone.WaitOne();
         }
-
-      }
-      catch (Exception e)
-      {
+      } catch (Exception e) {
         Console.WriteLine(e.ToString());
       }
-
       Console.WriteLine("\nPress ENTER to continue...");
       Console.Read();
-
     }
 
-    public static void AcceptCallback(IAsyncResult ar)
-    {
-      // Signal the main thread to continue.
+    public static void AcceptCallback(IAsyncResult ar) {
       allDone.Set();
-
-      // Get the socket that handles the client request.
       Socket listener = (Socket)ar.AsyncState;
       Socket handler = listener.EndAccept(ar);
       socketList.Add(handler);
       BeginRecieve(handler);
     }
 
-    public static void BeginRecieve(Socket handler)
-    {
+    public static void BeginRecieve(Socket handler) {
       StateObject state = new StateObject();
       state.workSocket = handler;
-      handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
-          new AsyncCallback(ReadCallback), state);
+      handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
     }
 
-    public static void ReadCallback(IAsyncResult ar)
-    {
-      String content = String.Empty;
-
-      // Retrieve the state object and the handler socket
-      // from the asynchronous state object.
+    public static void ReadCallback(IAsyncResult ar) {
+      string content = String.Empty;
       StateObject state = (StateObject)ar.AsyncState;
       Socket handler = state.workSocket;
 
-      // Read data from the client socket. 
       int bytesRead = handler.EndReceive(ar);
 
-      if (bytesRead > 0)
-      {
-        // There  might be more data, so store the data received so far.
+      if (bytesRead > 0) {
         state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
         content = state.sb.ToString();
-        //if (content == ("quit<EOF>"))
-        //{
-        //  handler.Shutdown(SocketShutdown.Both);
-        //  handler.Close();
-        //}
-        // Check for end-of-file tag. If it is not there, read 
-        // more data.
 
-        if (content.IndexOf("<EOF>") > -1)
-        {
-          foreach (var item in socketList)
-          {
-            if (item == handler)
-            {
-              continue;
+        if (content.IndexOf("<EOF>") > -1) {
+          foreach (var item in socketList) {
+            if (!item.Equals(handler)) {
+              Send(item, content);
             }
-            Send(item, content);
           }
           Console.WriteLine(content);
+        } else {
+          handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
         }
-        else
-        {
-          // Not all data received. Get more.
-          handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
-          new AsyncCallback(ReadCallback), state);
-        }
-        //Send(handler, content);
         state.sb.Clear();
-        handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
-          new AsyncCallback(ReadCallback), state);
+        handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
       }
     }
 
-    private static void Send(Socket handler, String data)
-    {
-      // Convert the string data to byte data using ASCII encoding.
+    private static void Send(Socket handler, string data) {
       byte[] byteData = Encoding.ASCII.GetBytes(data);
-
-      // Begin sending the data to the remote device.
-      handler.BeginSend(byteData, 0, byteData.Length, 0,
-          new AsyncCallback(SendCallback), handler);
+      handler.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), handler);
     }
 
-    private static void SendCallback(IAsyncResult ar)
-    {
-      try
-      {
-        // Retrieve the socket from the state object.
+    private static void SendCallback(IAsyncResult ar) {
+      try {
         Socket handler = (Socket)ar.AsyncState;
-
-        // Complete sending the data to the remote device.
         int bytesSent = handler.EndSend(ar);
-        // Console.WriteLine("Sent {0} bytes to client.", bytesSent);
-
-        //handler.Shutdown(SocketShutdown.Both);
-        //handler.Close();
-
-      }
-      catch (Exception e)
-      {
+      } catch (Exception e) {
         Console.WriteLine(e.ToString());
       }
     }
