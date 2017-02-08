@@ -66,6 +66,8 @@ namespace GameServer
             startThreadTCP();
             break;
           case "exit":
+            if (threadTCP.IsAlive) { threadTCP.Abort(); }
+            if (threadUDP.IsAlive) { threadUDP.Abort(); }
             Console.WriteLine("Bye!  ^.^");
             System.Environment.Exit(1);
             break;
