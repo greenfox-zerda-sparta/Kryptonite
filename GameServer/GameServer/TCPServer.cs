@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -12,7 +12,6 @@ namespace GameServer
   {
     public static ManualResetEvent allDone = new ManualResetEvent(false);
     public static List<Socket> socketList;
-    private const string IPADDRESS = "10.27.99.226";
     private const int PORT = 5555;
 
     public TCPServer()
@@ -22,8 +21,7 @@ namespace GameServer
 
     public void StartTcpServer()
     {
-      IPAddress ipAddress = IPAddress.Parse(IPADDRESS);
-      IPEndPoint localEndPoint = new IPEndPoint(ipAddress, PORT);
+      IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Any, PORT);
       Socket listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
       socketList = new List<Socket>();
       try
