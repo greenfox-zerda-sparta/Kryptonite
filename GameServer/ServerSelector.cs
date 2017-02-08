@@ -13,58 +13,16 @@ namespace GameServer
   class ServerSelector
   {
     private string arg;
-    Thread t1;
-    public int sum;
+    Thread threadUDP;
+    Thread threadTCP;
     private const int LISTENPORT = 7777;
     //private const string IPADDRESS = "";
-
-    private static void StartUdpServer()
-    {
-      bool isQuit = false;
-      UdpClient listener = new UdpClient(LISTENPORT);
-      List<IPEndPoint> endPointList = new List<IPEndPoint>();
-      IPEndPoint clientEndPoint = new IPEndPoint(IPAddress.Any, LISTENPORT);
-      Console.WriteLine("server started working");
-      string message;
-      try
-      {
-        while (!isQuit)
-        {
-          byte[] bytes = listener.Receive(ref clientEndPoint);
-          message = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
-          if (message == "exit")
-          {
-            Console.WriteLine("Sever shutdown.");
-            break;
-          }
-          if (!endPointList.Contains(clientEndPoint))
-          {
-            endPointList.Add(clientEndPoint);
-          }
-          Console.WriteLine("Received broadcast from {0} :\n {1}\n", clientEndPoint.ToString(), Encoding.ASCII.GetString(bytes, 0, bytes.Length));
-          foreach (IPEndPoint item in endPointList)
-          {
-            if (!item.Equals(clientEndPoint))
-            {
-              listener.Send(bytes, bytes.Length, item);
-            }
-          }
-        }
-      }
-      catch (Exception e)
-      {
-        Console.WriteLine(e.ToString());
-      }
-      finally
-      {
-        listener.Close();
-      }
-    }
+    private static UDPServer udpserver;
+    private static TCPServer tcpserver;
 
     public ServerSelector()
     {
       arg = "";
-      sum = 1; 
     }
 
     private void readArg()
@@ -73,10 +31,18 @@ namespace GameServer
       arg = Console.ReadLine();
     }
 
-    private void t1start()
+    private void startThreadUDP()
     {
-      t1 = new Thread(StartUdpServer);
-      t1.Start();
+      udpserver = new UDPServer();
+      threadUDP = new Thread(udpserver.StartUdpServer);
+      threadUDP.Start();
+    }
+
+    private void startThreadTCP()
+    {
+      tcpserver = new TCPServer();
+      threadTCP = new Thread(tcpserver.StartTcpServer);
+      threadTCP.Start();
     }
 
     public void select()
@@ -88,14 +54,16 @@ namespace GameServer
         {
           case "all":
             Console.WriteLine("Both starting...");
+            startThreadUDP();
+            startThreadTCP();
             break;
           case "u":
             Console.WriteLine("UDP starting...");
-            t1start();
-            Console.WriteLine(sum);
+            startThreadUDP();
             break;
           case "t":
-            Console.WriteLine("TCP starting...  - you haven't got tcp server yet");
+            Console.WriteLine("TCP starting..." );
+            startThreadTCP();
             break;
           case "exit":
             Console.WriteLine("Bye!  ^.^");
