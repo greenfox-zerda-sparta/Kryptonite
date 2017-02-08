@@ -11,7 +11,7 @@ namespace AsynchronousServer {
 
     public static ManualResetEvent allDone = new ManualResetEvent(false);
     public static List<Socket> socketList;
-    public const string IPADDRESS = "127.0.0.1";
+    public const string IPADDRESS = "169.254.80.80";
     public const int PORT = 7777;
   
     public static void StartListening() {
@@ -57,7 +57,12 @@ namespace AsynchronousServer {
       StateObject state = (StateObject)ar.AsyncState;
       Socket handler = state.workSocket;
 
-      int bytesRead = handler.EndReceive(ar);
+      int bytesRead = 0;
+      try {
+        bytesRead = handler.EndReceive(ar);
+      } catch {
+        socketList.Remove(handler);
+      }
 
       if (bytesRead > 0) {
         state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
