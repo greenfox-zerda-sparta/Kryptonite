@@ -5,105 +5,94 @@ using System.Text;
 using System.Threading;
 using System.Collections.Generic;
 
-namespace AsynchronousServer
-{
+namespace AsynchronousServer {
 
-  public class AsynchronousSocketListener
-  {
+  public class AsynchronousSocketListener {
+
     public static ManualResetEvent allDone = new ManualResetEvent(false);
     public static List<Socket> socketList;
-    public const string IPADDRESS = "10.27.99.226";
+    public const string IPADDRESS = "169.254.80.80";
     public const int PORT = 7777;
-    public static void StartListening()
-    {
+  
+    public static void StartListening() {
       IPAddress ipAddress = IPAddress.Parse(IPADDRESS);
       IPEndPoint localEndPoint = new IPEndPoint(ipAddress, PORT);
+
       Socket listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
       socketList = new List<Socket>();
-      try
-      {
+      
+      try {
         listener.Bind(localEndPoint);
         listener.Listen(100);
-        while (true)
-        {
+
+        while (true) {
           allDone.Reset();
           Console.WriteLine("Waiting for a connection...");
           listener.BeginAccept(new AsyncCallback(AcceptCallback), listener);
           allDone.WaitOne();
         }
-      }
-      catch (Exception e)
-      {
+      } catch (Exception e) {
         Console.WriteLine(e.ToString());
       }
       Console.WriteLine("\nPress ENTER to continue...");
       Console.Read();
     }
-    public static void AcceptCallback(IAsyncResult ar)
-    {
+
+    public static void AcceptCallback(IAsyncResult ar) {
       allDone.Set();
       Socket listener = (Socket)ar.AsyncState;
       Socket handler = listener.EndAccept(ar);
       socketList.Add(handler);
       BeginRecieve(handler);
     }
-    public static void BeginRecieve(Socket handler)
-    {
+
+    public static void BeginRecieve(Socket handler) {
       StateObject state = new StateObject();
       state.workSocket = handler;
       handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
     }
-    public static void ReadCallback(IAsyncResult ar)
-    {
+
+    public static void ReadCallback(IAsyncResult ar) {
       string content = String.Empty;
       StateObject state = (StateObject)ar.AsyncState;
       Socket handler = state.workSocket;
+
       int bytesRead = 0;
-      try
-      {
+      try {
         bytesRead = handler.EndReceive(ar);
-      }
-      catch
-      {
+      } catch {
         socketList.Remove(handler);
       }
-      if (bytesRead > 0)
-      {
+
+      if (bytesRead > 0) {
         state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
         content = state.sb.ToString();
-        if (content.IndexOf("<EOF>") > -1)
-        {
-          foreach (var item in socketList)
-          {
-            if (!item.Equals(handler))
-            {
+
+        if (content.IndexOf("<EOF>") > -1) {
+          foreach (var item in socketList) {
+            if (!item.Equals(handler)) {
               Send(item, content);
             }
           }
           Console.WriteLine(content);
-        }
-        else
-        {
+        } else {
           handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
         }
         state.sb.Clear();
         handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
       }
     }
-    private static void Send(Socket handler, string data)
-    {
+
+    private static void Send(Socket handler, string data) {
       byte[] byteData = Encoding.ASCII.GetBytes(data);
       handler.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), handler);
     }
-    private static void SendCallback(IAsyncResult ar)
-    {
-      try
-      {
+
+    private static void SendCallback(IAsyncResult ar) {
+      try {
         Socket handler = (Socket)ar.AsyncState;
         int bytesSent = handler.EndSend(ar);
-      }
-      catch (Exception e)
-      {
+      } catch (Exception e) {
         Console.WriteLine(e.ToString());
       }
     }
