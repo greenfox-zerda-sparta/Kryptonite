@@ -26,7 +26,7 @@ namespace GameServer
       UdpClient listener = new UdpClient(LISTENPORT);
       List<IPEndPoint> endPointList = new List<IPEndPoint>();
       IPEndPoint clientEndPoint = new IPEndPoint(IPAddress.Any, LISTENPORT);
-      Console.WriteLine("server started working");
+      Console.WriteLine("UDPServer started working");
       string message;
       try
       {

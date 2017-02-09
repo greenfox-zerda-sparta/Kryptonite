@@ -19,10 +19,11 @@ namespace GameServer
     //private const string IPADDRESS = "";
     private static UDPServer udpserver;
     private static TCPServer tcpserver;
-
+    public static bool serverTurnOFF;
     public ServerSelector()
     {
       arg = "";
+      serverTurnOFF = false;
     }
 
     private void readArg()
@@ -35,6 +36,7 @@ namespace GameServer
     {
       udpserver = new UDPServer();
       threadUDP = new Thread(udpserver.StartUdpServer);
+      threadUDP.IsBackground = true;
       threadUDP.Start();
     }
 
@@ -42,6 +44,7 @@ namespace GameServer
     {
       tcpserver = new TCPServer();
       threadTCP = new Thread(tcpserver.StartTcpServer);
+      threadTCP.IsBackground = true;
       threadTCP.Start();
     }
 
@@ -62,12 +65,10 @@ namespace GameServer
             startThreadUDP();
             break;
           case "t":
-            Console.WriteLine("TCP starting..." );
+            Console.WriteLine("TCP starting...");
             startThreadTCP();
             break;
           case "exit":
-            if (threadTCP.IsAlive) { threadTCP.Abort(); }
-            if (threadUDP.IsAlive) { threadUDP.Abort(); }
             Console.WriteLine("Bye!  ^.^");
             System.Environment.Exit(1);
             break;
