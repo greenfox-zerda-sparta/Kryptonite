@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 namespace GameServer
 {
-
   public class TCPServer
   {
     public static ManualResetEvent allDone = new ManualResetEvent(false);
@@ -16,7 +15,6 @@ namespace GameServer
 
     public TCPServer()
     {
-
     }
 
     public void StartTcpServer()
@@ -43,6 +41,7 @@ namespace GameServer
       Console.WriteLine("\nPress ENTER to continue...");
       Console.Read();
     }
+
     public static void AcceptCallback(IAsyncResult ar)
     {
       allDone.Set();
@@ -50,13 +49,18 @@ namespace GameServer
       Socket handler = listener.EndAccept(ar);
       socketList.Add(handler);
       BeginRecieve(handler);
+      //sending a list to the players for generate a maze
+      MazeGenerator mazeGen = new MazeGenerator();
+      Send(handler, MazeGenerator.byteArrOfWallList);
     }
+
     public static void BeginRecieve(Socket handler)
     {
       StateObject state = new StateObject();
       state.workSocket = handler;
       handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
     }
+
     public static void ReadCallback(IAsyncResult ar)
     {
       string content = String.Empty;
@@ -94,11 +98,19 @@ namespace GameServer
         handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReadCallback), state);
       }
     }
+
     private static void Send(Socket handler, string data)
     {
       byte[] byteData = Encoding.ASCII.GetBytes(data);
       handler.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), handler);
     }
+
+    private static void Send(Socket handler, byte[] byteArr)
+    {
+      byte[] byteData = byteArr;
+      handler.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), handler);
+    }
+
     private static void SendCallback(IAsyncResult ar)
     {
       try

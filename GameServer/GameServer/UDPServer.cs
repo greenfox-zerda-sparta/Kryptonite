@@ -1,10 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-using System.ComponentModel;
 using System.Net;
 using System.Net.Sockets;
 
@@ -13,11 +12,9 @@ namespace GameServer
   class UDPServer
   {
     private const int LISTENPORT = 7777;
-    //private const string IPADDRESS = "";
-
+   
     public UDPServer()
     {
-
     }
 
     public void StartUdpServer()
@@ -37,7 +34,7 @@ namespace GameServer
           if (message == "exit")
           {
             Console.WriteLine("Sever shutdown.");
-            break;
+            isQuit = true;
           }
           if (!endPointList.Contains(clientEndPoint))
           {

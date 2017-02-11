@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 using System.Threading;
-using System.ComponentModel;
-using System.Net;
-using System.Net.Sockets;
 
 namespace GameServer
 {
@@ -16,10 +9,10 @@ namespace GameServer
     Thread threadUDP;
     Thread threadTCP;
     private const int LISTENPORT = 7777;
-    //private const string IPADDRESS = "";
     private static UDPServer udpserver;
     private static TCPServer tcpserver;
     public static bool serverTurnOFF;
+
     public ServerSelector()
     {
       arg = "";
@@ -70,7 +63,7 @@ namespace GameServer
             break;
           case "exit":
             Console.WriteLine("Bye!  ^.^");
-            System.Environment.Exit(1);
+            Environment.Exit(1);
             break;
           default:
             Console.WriteLine("Wrong arguments");
