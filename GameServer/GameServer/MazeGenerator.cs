@@ -13,7 +13,7 @@ namespace GameServer {
     private StringBuilder strBuilder = new StringBuilder();
 
     public static List<int> wallList = new List<int>();
-    public static byte[] byteArrOfWallList = new byte[SIZE_OF_BYTEARR_FOR_WALLLIST];
+    public static byte[] byteArrOfWallList = new byte[SIZE_OF_BYTEARR_FOR_WALLLIST + 1];
 
     public MazeGenerator()
     {
@@ -30,7 +30,8 @@ namespace GameServer {
     }
 
     private void ConvertWallListToBytes() {
-      int j = 0;
+      byteArrOfWallList[0] = Convert.ToByte(Flags.MazeFlag); //mazeflag
+      int j = 1;
       for (int i = 1; i <= SIZE_OF_WALLLIST; i++)
       {
         strBuilder.Append(wallList[i - 1].ToString());
