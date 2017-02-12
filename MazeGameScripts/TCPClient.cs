@@ -145,4 +145,3 @@ public class TCPConnection : MonoBehaviour {
     Array.Resize<byte>(ref state.buffer, StateObject.BufferSize);
   }
 }
-

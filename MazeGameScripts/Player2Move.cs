@@ -11,16 +11,13 @@ public class Player2Move : MonoBehaviour {
 
   public string lastPosition;
   public Rect labelPosition;
-  string labelText;
   public GUIStyle labelStyle;
-  int healthPoint = 1000;
 
   private void Start()
   {
     uc = new UDPconnection();
     tc = new TCPConnection();
     uc.SendData("Player - Navigator Connected(UDP)");
-    string strFromTCP = tc.Receive(tc.client);
     tc.Send(TCPMessageID.Message, tc.client, "Player - Navigator Connected(TCP)");
     tc.Receive(tc.client);
     rd.position = spawnPosition;
