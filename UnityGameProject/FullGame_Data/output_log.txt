@@ -7,78 +7,41 @@ Direct3D:
     VRAM:     880 MB
     Driver:   8.15.10.2900
 Begin MonoManager ReloadAssembly
-Platform assembly: C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
-Loading C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
-Platform assembly: C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-Platform assembly: C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
-Loading C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-Platform assembly: C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
-Loading C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
-Platform assembly: C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
-Loading C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
-- Completed reload, in  0.392 seconds
-Platform assembly: C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\System.dll (this message is harmless)
+Platform assembly: C:\Users\nagyz\Source\Repos\Kryptonite\UnityGameProject\FullGame_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\nagyz\Source\Repos\Kryptonite\UnityGameProject\FullGame_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\nagyz\Source\Repos\Kryptonite\UnityGameProject\FullGame_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\nagyz\Source\Repos\Kryptonite\UnityGameProject\FullGame_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\nagyz\Source\Repos\Kryptonite\UnityGameProject\FullGame_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\nagyz\Source\Repos\Kryptonite\UnityGameProject\FullGame_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\nagyz\Source\Repos\Kryptonite\UnityGameProject\FullGame_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\nagyz\Source\Repos\Kryptonite\UnityGameProject\FullGame_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\nagyz\Source\Repos\Kryptonite\UnityGameProject\FullGame_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\nagyz\Source\Repos\Kryptonite\UnityGameProject\FullGame_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\nagyz\Source\Repos\Kryptonite\UnityGameProject\FullGame_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
+Loading C:\Users\nagyz\Source\Repos\Kryptonite\UnityGameProject\FullGame_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
+Platform assembly: C:\Users\nagyz\Source\Repos\Kryptonite\UnityGameProject\FullGame_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
+Loading C:\Users\nagyz\Source\Repos\Kryptonite\UnityGameProject\FullGame_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
+- Completed reload, in  0.292 seconds
+Platform assembly: C:\Users\nagyz\Source\Repos\Kryptonite\UnityGameProject\FullGame_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\nagyz\Source\Repos\Kryptonite\UnityGameProject\FullGame_Data\Managed\System.dll (this message is harmless)
 desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 1.886532 ms
-Initialize engine version: 5.5.0f3 (38b4efef76f0)
-GfxDevice: creating device client; threaded=1
-Direct3D:
-    Version:  Direct3D 11.0 [level 10.0]
-    Renderer: Intel(R) HD Graphics (ID=0x46)
-    Vendor:   Intel
-    VRAM:     880 MB
-    Driver:   8.15.10.2900
-Begin MonoManager ReloadAssembly
-Platform assembly: C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
-Loading C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
-Platform assembly: C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-Platform assembly: C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
-Loading C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-Platform assembly: C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
-Loading C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
-Platform assembly: C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
-Loading C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
-- Completed reload, in  0.037 seconds
-Platform assembly: C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: C:\Users\nagyz\Documents\GameProjectMenĂĽ\FullGame_Data\Managed\System.dll (this message is harmless)
+UnloadTime: 2.934796 ms
 Setting up 1 worker threads for Enlighten.
-  Thread -> id: 2fec -> priorityesktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
-: 1 
-<RI> Initializing input.
-<RI> Input initialized.
-<RI> Initialized touch support.
-UnloadTime: 3.151206 ms
-Setting up 1 worker threads for Enlighten.
-  Thread -> id: 2730 -> priority: 1 
+  Thread -> id: 3418 -> priority: 1 
 The referenced script on this Behaviour (Game Object 'NetConnection') is missing!
  
 (Filename:  Line: 1754)
 
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 9.732471 ms
+UnloadTime: 7.571791 ms
 
 Unloading 18 unused Assets to reduce memory usage. Loaded Objects now: 349.
-Total: 1.075208 ms (FindLiveObjects: 0.048328 ms CreateObjectMapping: 0.044479 ms MarkObjects: 0.928083 ms  DeleteObjects: 0.051750 ms)
+Total: 0.342578 ms (FindLiveObjects: 0.047473 ms CreateObjectMapping: 0.047045 ms MarkObjects: 0.218548 ms  DeleteObjects: 0.028227 ms)
 
-Socket connected to 192.168.1.37:5555
-Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 9.558831 ms
+System.Net.Sockets.SocketException: Nem hozható létre kapcsolat, mert a célszámítógép már visszautasította a kapcsolatot.
 
-Unloading 18 unused Assets to reduce memory usage. Loaded Objects now: 345.
-Total: 0.501678 ms (FindLiveObjects: 0.070996 ms CreateObjectMapping: 0.038064 ms MarkObjects: 0.343005 ms  DeleteObjects: 0.047473 ms)
-
-Socket connected to 192.168.1.37:5555
+  at System.Net.Sockets.Socket.Connect (System.Net.EndPoint remoteEP, Boolean requireSocketPolicy) [0x00000] in <filename unknown>:0 
+  at System.Net.Sockets.Socket+Worker.Connect () [0x00000] in <filename unknown>:0 
