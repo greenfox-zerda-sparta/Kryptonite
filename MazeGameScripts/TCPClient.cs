@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Linq;
 using System.Collections;
 using System.Text;
 using System.Net;
@@ -49,10 +50,13 @@ public class TCPConnection : MonoBehaviour {
     }
   }
 
-  public void Send(Socket client, string data)
+  public void Send(TCPMessageID messageID, Socket client, string data)
   {
+    byte[] byteForMessageID = new byte[1];
+    byteForMessageID[0] = Convert.ToByte(messageID);
     byte[] byteData = Encoding.ASCII.GetBytes(data + "<EOF>");
-    client.BeginSend(byteData, 0, byteData.Length, 0, new AsyncCallback(SendCallback), client);
+    byte[] byteForSend = byteForMessageID.Concat(byteData).ToArray();
+    client.BeginSend(byteForSend, 0, byteForSend.Length, 0, new AsyncCallback(SendCallback), client);
   }
 
   private static void SendCallback(IAsyncResult ar)
@@ -95,32 +99,26 @@ public class TCPConnection : MonoBehaviour {
 
       if (bytesRead > 0)
       {
-        if (state.buffer[0] == Convert.ToByte(Flags.MazeFlag))
+        TCPMessageID ID = (TCPMessageID)state.buffer[0];
+        switch (ID)
         {
-          Send(client, "I've got the mazeWalls!");
-          Array.Resize<byte>(ref state.buffer, bytesRead);
-          if (BitConverter.IsLittleEndian)
-          {
-            Array.Reverse(state.buffer);
-          }
-          BitArray b = new BitArray(state.buffer);
-          for (int i = b.Count - 1; i >= 0; i--)
-          {
-            //Console.WriteLine(b[i]);
-            //do sg with bits
-          }
-          Array.Resize<byte>(ref state.buffer, StateObject.BufferSize);
-        }
-        else
-        {
-          state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
-          response = state.sb.ToString();
+          case TCPMessageID.Maze:
+            Send(TCPMessageID.Message, client, "I've received the mazeWalls!");
+            //remove the ID from the array
+            state.buffer = state.buffer.Where((source, index) => index != 0).ToArray();
+            ConvertTheMessageToBits(state, bytesRead);
+            break;
+          case TCPMessageID.Trap:
+            //remove the ID from the array
+            state.buffer = state.buffer.Where((source, index) => index != 0).ToArray();
+            state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
+            response = state.sb.ToString(0, state.sb.Length - 6);
+            break;
         }
         client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
       }
       if (state.sb.Length > 0)
       {
-        //Console.WriteLine(response);
         state.sb = null;
       }
       receiveDone.Set();
@@ -129,6 +127,22 @@ public class TCPConnection : MonoBehaviour {
     {
       // Console.WriteLine(e.ToString());
     }
+  }
+
+  private void ConvertTheMessageToBits(StateObject state, int bytesRead)
+  {
+    Array.Resize<byte>(ref state.buffer, bytesRead);
+    if (BitConverter.IsLittleEndian)
+    {
+      Array.Reverse(state.buffer);
+    }
+    BitArray b = new BitArray(state.buffer);
+    for (int i = b.Count - 1; i >= 0; i--)
+    {
+      //Console.WriteLine(b[i]);
+      //do something with the bits
+    }
+    Array.Resize<byte>(ref state.buffer, StateObject.BufferSize);
   }
 }
 

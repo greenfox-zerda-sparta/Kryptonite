@@ -21,7 +21,7 @@ public class Player2Move : MonoBehaviour {
     tc = new TCPConnection();
     uc.SendData("Player - Navigator Connected(UDP)");
     string strFromTCP = tc.Receive(tc.client);
-    tc.Send(tc.client, "Player - Navigator Connected(TCP)");
+    tc.Send(TCPMessageID.Message, tc.client, "Player - Navigator Connected(TCP)");
     tc.Receive(tc.client);
     rd.position = spawnPosition;
   }

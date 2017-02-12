@@ -13,6 +13,8 @@ public class StateObject : MonoBehaviour {
 
 }
 
-public enum Flags {
-  MazeFlag = 1,
+public enum TCPMessageID : byte {
+  Message,
+  Maze,
+  Trap,
 }
