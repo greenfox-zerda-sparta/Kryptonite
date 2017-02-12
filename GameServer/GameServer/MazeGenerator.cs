@@ -30,7 +30,7 @@ namespace GameServer {
     }
 
     private void ConvertWallListToBytes() {
-      byteArrOfWallList[0] = Convert.ToByte(Flags.MazeFlag); //mazeflag
+      byteArrOfWallList[0] = Convert.ToByte(TCPMessageID.Maze); //mazeflag
       int j = 1;
       for (int i = 1; i <= SIZE_OF_WALLLIST; i++)
       {

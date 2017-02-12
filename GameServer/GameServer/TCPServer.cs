@@ -81,14 +81,23 @@ namespace GameServer
         content = state.sb.ToString();
         if (content.IndexOf("<EOF>") > -1)
         {
-          foreach (var item in socketList)
+          TCPMessageID ID = (TCPMessageID)state.buffer[0];
+          switch (ID)
           {
-            if (!item.Equals(handler))
-            {
-              Send(item, content);
-            }
+            case TCPMessageID.Message:
+              content = state.sb.ToString(0, state.sb.Length - 5);
+              Console.WriteLine(content);              
+              break;
+            case TCPMessageID.Trap:
+              foreach (var item in socketList)
+              {
+                if (!item.Equals(handler))
+                {
+                  Send(item, content);
+                }
+              }
+              break;
           }
-          Console.WriteLine(content);
         }
         else
         {

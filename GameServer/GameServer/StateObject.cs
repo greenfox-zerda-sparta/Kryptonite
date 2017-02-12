@@ -10,7 +10,9 @@ namespace GameServer {
     public StringBuilder sb = new StringBuilder();
   }
 
-  public enum Flags {
-    MazeFlag = 1,
+  public enum TCPMessageID {
+    Message,
+    Maze,
+    Trap,
   }
 }
