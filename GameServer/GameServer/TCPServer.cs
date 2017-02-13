@@ -22,6 +22,8 @@ namespace GameServer
       IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Any, PORT);
       Socket listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
       socketList = new List<Socket>();
+      MazeGenerator mazeGen = new MazeGenerator();
+
       try
       {
         listener.Bind(localEndPoint);
@@ -50,7 +52,6 @@ namespace GameServer
       socketList.Add(handler);
       BeginRecieve(handler);
       //sending a list to the players for generate a maze
-      MazeGenerator mazeGen = new MazeGenerator();
       Send(handler, MazeGenerator.byteArrOfWallList);
     }
 
