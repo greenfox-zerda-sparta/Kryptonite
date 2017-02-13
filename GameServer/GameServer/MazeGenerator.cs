@@ -3,44 +3,65 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace GameServer {
-  class MazeGenerator {
+  public class MazeGenerator {
 
-    private const int SIZE_OF_WALLLIST = 104;
-    //private double size = Math.Ceiling(Convert.ToDouble(SIZE_OF_WALLLIST) / 8);
-    private const int SIZE_OF_BYTEARR_FOR_WALLLIST = SIZE_OF_WALLLIST / 8;
-
+    private const int SIZE_OF_LIST = 104;
+    private const int ONE_BYTE = 8;
+    private const int SPACE_FOR_TRANSFORMED_LIST = SIZE_OF_LIST / ONE_BYTE;
+    private const int SPACE_FOR_MESSAGEID = 1;
     private Random ran = new Random();
-    private StringBuilder strBuilder = new StringBuilder();
+    private List<int> wallList = new List<int>();
+    private byte[] byteArrayOfConvertedWallList = new byte[SPACE_FOR_MESSAGEID + SPACE_FOR_TRANSFORMED_LIST];
 
-    public static List<int> wallList = new List<int>();
-    public static byte[] byteArrOfWallList = new byte[SIZE_OF_BYTEARR_FOR_WALLLIST + 1];
+    public byte[] ByteArrayOfConvertedWallList
+    {
+      get
+      {
+        return byteArrayOfConvertedWallList;
+      }
+
+      set
+      {
+        byteArrayOfConvertedWallList = value;
+      }
+    }
 
     public MazeGenerator()
     {
       FillWallListRandomlyWith0or1();
-      ConvertWallListToBytes();
+      CreateMazeMessage();
     }
 
     private void FillWallListRandomlyWith0or1() {
-      for (int i = 0; i < SIZE_OF_WALLLIST; i++)
+      for (int i = 0; i < SIZE_OF_LIST; i++)
       {
         int randomWall = ran.Next(0, 2);
         wallList.Add(randomWall);
       }
     }
 
-    private void ConvertWallListToBytes() {
-      byteArrOfWallList[0] = Convert.ToByte(TCPMessageID.Maze); //mazeflag
-      int j = 1;
-      for (int i = 1; i <= SIZE_OF_WALLLIST; i++)
+    private string CreateStringFromWallList()
+    {
+      StringBuilder strBuilder = new StringBuilder();
+      foreach (int item in wallList)
       {
-        strBuilder.Append(wallList[i - 1].ToString());
-        if (i % 8 == 0)
-        {
-          byteArrOfWallList[j] = Convert.ToByte(strBuilder.ToString(), 2);
-          strBuilder.Clear();
-          j++;
-        }
+        strBuilder.Append(item);
+      }
+      return strBuilder.ToString();
+    }
+
+    private string SplitString(string str, int index)
+    {
+      return str.Substring((index * 8), ONE_BYTE);
+    }
+
+    private void CreateMazeMessage()
+    {
+      ByteArrayOfConvertedWallList[0] = Convert.ToByte(TCPMessageID.Maze);
+      string str = CreateStringFromWallList();
+      for (int i = 0; i < SPACE_FOR_TRANSFORMED_LIST; i++)
+      {
+        ByteArrayOfConvertedWallList[i + 1] = Convert.ToByte(SplitString(str, i), 2);
       }
     }
   }

@@ -12,9 +12,11 @@ namespace GameServer
     public static ManualResetEvent allDone = new ManualResetEvent(false);
     public static List<Socket> socketList;
     private const int PORT = 5555;
+    private static MazeGenerator mazeGen;
 
     public TCPServer()
     {
+      mazeGen = new MazeGenerator();
     }
 
     public void StartTcpServer()
@@ -22,7 +24,6 @@ namespace GameServer
       IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Any, PORT);
       Socket listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
       socketList = new List<Socket>();
-      MazeGenerator mazeGen = new MazeGenerator();
 
       try
       {
@@ -33,7 +34,8 @@ namespace GameServer
           allDone.Reset();
           Console.WriteLine("Waiting for a connection...");
           listener.BeginAccept(new AsyncCallback(AcceptCallback), listener);
-          allDone.WaitOne();
+          allDone.WaitOne(); 
+
         }
       }
       catch (Exception e)
@@ -52,7 +54,7 @@ namespace GameServer
       socketList.Add(handler);
       BeginRecieve(handler);
       //sending a list to the players for generate a maze
-      Send(handler, MazeGenerator.byteArrOfWallList);
+      Send(handler, mazeGen.ByteArrayOfConvertedWallList);
     }
 
     public static void BeginRecieve(Socket handler)
