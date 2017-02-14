@@ -13,6 +13,7 @@ namespace GameServer
     private static ManualResetEvent allDone;
     private static List<Socket> socketList;
     private static MazeGenerator mazeGen;
+    private static TrapGenerator trapGen;
     private static IPEndPoint localEndPoint;
     private static Socket listener;
     private static string content;
@@ -26,6 +27,7 @@ namespace GameServer
       socketList = new List<Socket>();
       content = String.Empty;
       mazeGen = new MazeGenerator();
+      trapGen = new TrapGenerator();
     }
 
     public void StartTcpServer()
