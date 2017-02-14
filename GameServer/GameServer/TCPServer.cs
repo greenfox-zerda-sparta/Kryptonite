@@ -117,6 +117,9 @@ namespace GameServer
         case TCPMessageID.Message:
           PrintMessageToConsol();
           break;
+        case TCPMessageID.MazeIsReceived:
+          Send(handler, trapGen.ByteArrayOfConvertedTrapList);
+          break;
         case TCPMessageID.Trap:
           SendMessageToTheOtherClients(handler);
           break;

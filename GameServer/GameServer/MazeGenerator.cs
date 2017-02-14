@@ -50,8 +50,9 @@ namespace GameServer {
       return strBuilder.ToString();
     }
 
-    private string SplitString(string str, int index)
+    public string SplitString(string str, int index)
     {
+
       return str.Substring((index * 8), ONE_BYTE);
     }
 
