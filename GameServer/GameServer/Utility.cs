@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace GameServer {
   public static class Utility {
-    public const int NUMBER_OF_ROWS = 12;
-    public const int NUMBER_OF_COLOUMNS = 12;
-    public const int SPACE_FOR_TRANSFORMED_LIST = NUMBER_OF_ROWS * NUMBER_OF_COLOUMNS / ONE_BYTE;
+    public const int NUMBER_OF_ROWS = 11;
+    public const int NUMBER_OF_COLOUMNS = 11;
+   // public const int SPACE_FOR_TRANSFORMED_LIST = NUMBER_OF_ROWS * NUMBER_OF_COLOUMNS / ONE_BYTE;
     public const int SPACE_FOR_MESSAGEID = 1;
     public const int ROAD_ID = 0;
     public const int TRAP_ID = 2;
