@@ -52,12 +52,10 @@ namespace GameServer {
     public byte[] CreateMessage()
     {
       MazeMessageArray[0] = Convert.ToByte(TCPMessageID.Maze);
-      Console.WriteLine(MazeMessageArray[0]);
       string str = Utility.CreateStringFromList(WallList);
       for (int i = 0; i < Utility.SPACE_FOR_TRANSFORMED_LIST; i++)
       {
         MazeMessageArray[i + 1] = Convert.ToByte(Utility.SplitStringToEightBits(str, i), 2);
-        Console.WriteLine(MazeMessageArray[i + 1]);
       }
       return MazeMessageArray;
     }
