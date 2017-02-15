@@ -49,6 +49,7 @@
     <Compile Include="ServerSelector.cs" />
     <Compile Include="StateObject.cs" />
     <Compile Include="TCPServer.cs" />
+    <Compile Include="TrapGenerator.cs" />
     <Compile Include="UDPServer.cs" />
   </ItemGroup>
   <ItemGroup>

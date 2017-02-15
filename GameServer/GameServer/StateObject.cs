@@ -14,5 +14,7 @@ namespace GameServer {
     Message,
     Maze,
     Trap,
+    TrapPosition,
+    MazeIsReceived,
   }
 }
