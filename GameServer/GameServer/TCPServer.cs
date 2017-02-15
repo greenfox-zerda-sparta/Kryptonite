@@ -27,10 +27,12 @@ namespace GameServer
       socketList = new List<Socket>();
       content = String.Empty;
       mazeGen = new MazeGenerator();
-      trapGen = new TrapGenerator();
+      mazeGen.GenerateMaze();
+      mazeGen.CreateMessage();
+      trapGen = new TrapGenerator(mazeGen.WallList);
     }
 
-    public void StartTcpServer()
+    public void Start()
     {
       try
       {
@@ -59,11 +61,11 @@ namespace GameServer
     public static void AcceptCallback(IAsyncResult ar)
     {
       allDone.Set();
-     // Socket listener = (Socket)ar.AsyncState;
+      Socket listener = (Socket)ar.AsyncState;
       Socket handler = listener.EndAccept(ar);
       socketList.Add(handler);
       BeginRecieve(handler);
-      Send(handler, mazeGen.ByteArrayOfConvertedWallList);
+      Send(handler, mazeGen.MazeMessageArray);
     }
 
     public static void BeginRecieve(Socket handler)
@@ -118,7 +120,7 @@ namespace GameServer
           PrintMessageToConsol();
           break;
         case TCPMessageID.MazeIsReceived:
-          Send(handler, trapGen.ByteArrayOfConvertedTrapList);
+          Send(handler, trapGen.CreateMessage());
           break;
         case TCPMessageID.Trap:
           SendMessageToTheOtherClients(handler);

@@ -1,69 +1,65 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace GameServer {
   public class MazeGenerator {
+    private List<byte> wallList;
+    private byte[,] mazeArray = new byte[Utility.NUMBER_OF_ROWS, Utility.NUMBER_OF_COLOUMNS];
+    private byte[] mazeMessageArray = new byte[Utility.SPACE_FOR_MESSAGEID + Utility.SPACE_FOR_TRANSFORMED_LIST];
 
-    private const int SIZE_OF_LIST = 104;
-    private const int ONE_BYTE = 8;
-    private const int SPACE_FOR_TRANSFORMED_LIST = SIZE_OF_LIST / ONE_BYTE;
-    private const int SPACE_FOR_MESSAGEID = 1;
-    private Random ran = new Random();
-    private List<int> wallList = new List<int>();
-    private byte[] byteArrayOfConvertedWallList = new byte[SPACE_FOR_MESSAGEID + SPACE_FOR_TRANSFORMED_LIST];
-
-    public byte[] ByteArrayOfConvertedWallList
+    public List<byte> WallList
     {
       get
       {
-        return byteArrayOfConvertedWallList;
+        if (null == wallList)
+        {
+          GenerateMaze();
+        }
+        return wallList;
+      }
+    }
+
+    public byte[] MazeMessageArray
+    {
+      get
+      {
+        return mazeMessageArray;
       }
 
       set
       {
-        byteArrayOfConvertedWallList = value;
+        mazeMessageArray = value;
       }
     }
 
     public MazeGenerator()
     {
-      FillWallListRandomlyWith0or1();
-      CreateMazeMessage();
     }
 
-    private void FillWallListRandomlyWith0or1() {
-      for (int i = 0; i < SIZE_OF_LIST; i++)
-      {
-        int randomWall = ran.Next(0, 2);
-        wallList.Add(randomWall);
-      }
-    }
-
-    private string CreateStringFromWallList()
+    public List<byte> GenerateMaze()
     {
-      StringBuilder strBuilder = new StringBuilder();
-      foreach (int item in wallList)
+      for (int row = 0; row < Utility.NUMBER_OF_ROWS; row++)
       {
-        strBuilder.Append(item);
+        for (int column = 0; column < Utility.NUMBER_OF_COLOUMNS; column++)
+        {
+          mazeArray[row, column] = Convert.ToByte(Utility.ran.Next(Utility.RAND_MINIMUM, 2));
+        }
       }
-      return strBuilder.ToString();
+
+      return wallList = Utility.TransformTwoDimensionalByteArrayToList(mazeArray);
     }
 
-    public string SplitString(string str, int index)
+    public byte[] CreateMessage()
     {
-
-      return str.Substring((index * 8), ONE_BYTE);
-    }
-
-    private void CreateMazeMessage()
-    {
-      ByteArrayOfConvertedWallList[0] = Convert.ToByte(TCPMessageID.Maze);
-      string str = CreateStringFromWallList();
-      for (int i = 0; i < SPACE_FOR_TRANSFORMED_LIST; i++)
+      MazeMessageArray[0] = Convert.ToByte(TCPMessageID.Maze);
+      Console.WriteLine(MazeMessageArray[0]);
+      string str = Utility.CreateStringFromList(WallList);
+      for (int i = 0; i < Utility.SPACE_FOR_TRANSFORMED_LIST; i++)
       {
-        ByteArrayOfConvertedWallList[i + 1] = Convert.ToByte(SplitString(str, i), 2);
+        MazeMessageArray[i + 1] = Convert.ToByte(Utility.SplitStringToEightBits(str, i), 2);
+        Console.WriteLine(MazeMessageArray[i + 1]);
       }
+      return MazeMessageArray;
     }
   }
 }
