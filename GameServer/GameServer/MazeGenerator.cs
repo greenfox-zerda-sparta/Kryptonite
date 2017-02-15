@@ -46,17 +46,37 @@ namespace GameServer {
         }
       }
 
-      return wallList = Utility.TransformTwoDimensionalByteArrayToList(mazeArray);
+      try
+      {
+        wallList = Utility.TransformTwoDimensionalByteArrayToList(mazeArray);
+      }
+      catch (NullReferenceException e)
+      {
+        Console.WriteLine(e);
+      }
+
+      return wallList;
     }
 
     public byte[] CreateMessage()
     {
       MazeMessageArray[0] = Convert.ToByte(TCPMessageID.Maze);
-      string str = Utility.CreateStringFromList(WallList);
+      string str = "";
+
+      try
+      {
+        str = Utility.CreateStringFromList(WallList);
+      }
+      catch (NullReferenceException e)
+      {
+        Console.WriteLine(e);
+      }
+
       for (int i = 0; i < Utility.SPACE_FOR_TRANSFORMED_LIST; i++)
       {
         MazeMessageArray[i + 1] = Convert.ToByte(Utility.SplitStringToEightBits(str, i), 2);
       }
+
       return MazeMessageArray;
     }
   }

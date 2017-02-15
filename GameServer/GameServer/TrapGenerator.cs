@@ -69,9 +69,19 @@ namespace GameServer {
 
     public byte[] CreateMessage()
     {
-      TrapMessageArray = new byte[(trapList.Count / 8) + 1];
+      TrapMessageArray = new byte[(trapList.Count / Utility.ONE_BYTE) + 1];
       TrapMessageArray[0] = Convert.ToByte(TCPMessageID.TrapPosition);
-      string str = Utility.CreateStringFromList(trapList);
+      string str = "";
+
+      try
+      {
+        str = Utility.CreateStringFromList(trapList);
+      }
+      catch (NullReferenceException e)
+      {
+        Console.WriteLine(e);
+      }
+
       for (int i = 0; i < TrapMessageArray.Length - 1; i++)
       {
         TrapMessageArray[i + 1] = Convert.ToByte(Utility.SplitStringToEightBits(str, i), 2);

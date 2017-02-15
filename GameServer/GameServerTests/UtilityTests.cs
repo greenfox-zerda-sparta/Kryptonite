@@ -1,3 +1,4 @@
+using GameServer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ namespace GameServer.Tests {
     }
 
     [TestMethod()]
-    [ExpectedException(typeof(Exception))]
+    [ExpectedException(typeof(NullReferenceException))]
     public void TransformTwoDimensionalByteArrayToListTest_WithException()
     {
       byte[,] arr = null;
@@ -60,6 +61,14 @@ namespace GameServer.Tests {
       string expected = "12";
       string actual = Utility.CreateStringFromList(byteList);
       Assert.AreNotEqual(expected, actual);
+    }
+
+    [TestMethod()]
+    [ExpectedException(typeof(NullReferenceException))]
+    public void CreateStringFromListTest_WithException()
+    {
+      List<byte> list = null;
+      Utility.CreateStringFromList(list);
     }
   }
 }

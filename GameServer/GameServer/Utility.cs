@@ -21,6 +21,10 @@ namespace GameServer {
 
     public static string CreateStringFromList(List<byte> list)
     {
+      if (list == null)
+      {
+        throw new NullReferenceException("List is null");
+      }
       StringBuilder strBuilder = new StringBuilder();
       foreach (int item in list)
       {
@@ -42,7 +46,7 @@ namespace GameServer {
     {
       if (arr == null)
       {
-        throw new Exception("The given array is not initialised.");
+        throw new NullReferenceException("Array is null");
       }
       List<byte> byteList = arr.Cast<byte>().ToList();
       return byteList;
