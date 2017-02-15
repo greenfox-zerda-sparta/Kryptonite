@@ -17,7 +17,7 @@ namespace GameServer
     {
     }
 
-    public void StartUdpServer()
+    public void Start()
     {
       bool isQuit = false;
       UdpClient listener = new UdpClient(LISTENPORT);
@@ -33,7 +33,7 @@ namespace GameServer
           message = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
           if (message == "exit")
           {
-            Console.WriteLine("Sever shutdown.");
+            Console.WriteLine("Server shutdown.");
             isQuit = true;
           }
           if (!endPointList.Contains(clientEndPoint))

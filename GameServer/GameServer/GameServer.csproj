@@ -51,6 +51,7 @@
     <Compile Include="TCPServer.cs" />
     <Compile Include="TrapGenerator.cs" />
     <Compile Include="UDPServer.cs" />
+    <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

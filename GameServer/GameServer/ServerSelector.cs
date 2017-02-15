@@ -28,7 +28,7 @@ namespace GameServer
     private void startThreadUDP()
     {
       udpserver = new UDPServer();
-      threadUDP = new Thread(udpserver.StartUdpServer);
+      threadUDP = new Thread(udpserver.Start);
       threadUDP.IsBackground = true;
       threadUDP.Start();
     }
@@ -36,7 +36,7 @@ namespace GameServer
     private void startThreadTCP()
     {
       tcpserver = new TCPServer();
-      threadTCP = new Thread(tcpserver.StartTcpServer);
+      threadTCP = new Thread(tcpserver.Start);
       threadTCP.IsBackground = true;
       threadTCP.Start();
     }
