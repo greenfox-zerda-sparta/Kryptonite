@@ -21,9 +21,22 @@ namespace GameServer {
       }
     }
 
+    public List<byte> TrapList
+    {
+      get
+      {
+        return trapList;
+      }
+
+      set
+      {
+        trapList = value;
+      }
+    }
+
     public TrapGenerator(List<byte> wallList)
     {
-      trapList = new List<byte>();
+      TrapList = new List<byte>();
       this.wallList = wallList;
       GenerateTrapsFromMazeList();
     }
@@ -58,24 +71,24 @@ namespace GameServer {
       {
         if (item == 2)
         {
-          trapList.Add(1);
+          TrapList.Add(1);
         }
         else
         {
-          trapList.Add(0);
+          TrapList.Add(0);
         }
       }
     }
 
     public byte[] CreateMessage()
     {
-      TrapMessageArray = new byte[(trapList.Count / Utility.ONE_BYTE) + 1];
+      TrapMessageArray = new byte[(TrapList.Count / Utility.ONE_BYTE) + 1];
       TrapMessageArray[0] = Convert.ToByte(TCPMessageID.TrapPosition);
       string str = "";
 
       try
       {
-        str = Utility.CreateStringFromList(trapList);
+        str = Utility.CreateStringFromList(TrapList);
       }
       catch (NullReferenceException e)
       {
@@ -84,7 +97,7 @@ namespace GameServer {
 
       for (int i = 0; i < TrapMessageArray.Length - 1; i++)
       {
-        TrapMessageArray[i + 1] = Convert.ToByte(Utility.SplitStringToEightBits(str, i), 2);
+        TrapMessageArray[i + 1] = Convert.ToByte(Utility.SplitStringToEightChar(str, i), 2);
       }
       return TrapMessageArray;
     }

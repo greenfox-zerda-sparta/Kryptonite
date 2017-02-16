@@ -28,7 +28,6 @@ namespace GameServer
       content = String.Empty;
       mazeGen = new MazeGenerator();
       mazeGen.GenerateMaze();
-      mazeGen.CreateMessage();
       trapGen = new TrapGenerator(mazeGen.WallList);
     }
 
@@ -65,7 +64,7 @@ namespace GameServer
       Socket handler = listener.EndAccept(ar);
       socketList.Add(handler);
       BeginRecieve(handler);
-      Send(handler, mazeGen.MazeMessageArray);
+      Send(handler, mazeGen.CreateMessage());
     }
 
     public static void BeginRecieve(Socket handler)

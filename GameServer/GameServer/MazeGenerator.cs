@@ -74,7 +74,7 @@ namespace GameServer {
 
       for (int i = 0; i < Utility.SPACE_FOR_TRANSFORMED_LIST; i++)
       {
-        MazeMessageArray[i + 1] = Convert.ToByte(Utility.SplitStringToEightBits(str, i), 2);
+        MazeMessageArray[i + 1] = Convert.ToByte(Utility.SplitStringToEightChar(str, i), 2);
       }
 
       return MazeMessageArray;

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace GameServer {
   public static class Utility {
-    public const int NUMBER_OF_ROWS = 12;
-    public const int NUMBER_OF_COLOUMNS = 12;
+    public const int NUMBER_OF_ROWS = 11;
+    public const int NUMBER_OF_COLOUMNS = 11;
     public const int SPACE_FOR_TRANSFORMED_LIST = NUMBER_OF_ROWS * NUMBER_OF_COLOUMNS / ONE_BYTE;
     public const int SPACE_FOR_MESSAGEID = 1;
     public const int ROAD_ID = 0;
@@ -33,7 +33,7 @@ namespace GameServer {
       return strBuilder.ToString();
     }
 
-    public static string SplitStringToEightBits(string str, int number)
+    public static string SplitStringToEightChar(string str, int number)
     {
       while (str.Length % ONE_BYTE != 0)
       {
@@ -50,6 +50,29 @@ namespace GameServer {
       }
       List<byte> byteList = arr.Cast<byte>().ToList();
       return byteList;
+    }
+
+    public static byte[] CreateMessage(int messageId, List<byte> list)
+    {
+      byte[] messageArr = new byte[SPACE_FOR_MESSAGEID + list.Count / ONE_BYTE];
+      messageArr[0] = Convert.ToByte(messageId);
+      string str = "";
+
+      try
+      {
+        str = Utility.CreateStringFromList(list);
+      }
+      catch (NullReferenceException e)
+      {
+        Console.WriteLine(e);
+      }
+      // ArgumentOutOfRangeException
+      for (int i = 0; i < messageArr.Length - 1; i++)
+      {
+        messageArr[i + 1] = Convert.ToByte(Utility.SplitStringToEightChar(str, i), 2);
+      }
+
+      return messageArr;
     }
   }
 }
