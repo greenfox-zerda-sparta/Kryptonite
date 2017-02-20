@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace GameServer {
   public class MazeGenerator {
     private List<byte> wallList;
-    private byte[,] mazeArray = new byte[11,11];
+    private byte[,] mazeArray = new byte[21,21];
     private byte[] mazeMessageArray; //= new byte[Utility.SPACE_FOR_MESSAGEID + Utility.SPACE_FOR_TRANSFORMED_LIST];
     public enum PickMethod : byte { Newest, Oldest, Random, Cyclic };
 
@@ -47,7 +47,7 @@ namespace GameServer {
 
     public byte[] CreateMessage()
     {
-      MazeMessageArray = new byte[17];
+      MazeMessageArray = new byte[57];
       wallList = Utility.TransformTwoDimensionalByteArrayToList(mazeArray);
       MazeMessageArray[0] = Convert.ToByte(TCPMessageID.Maze);
       string str = "";
@@ -327,27 +327,35 @@ namespace GameServer {
         {
           for (UInt16 x = 0; x < maze.GetLength(0); x++)
           {
-            blockmaze[2 * x + 1, 2 * y + 1] = 0;
-            if ((maze[x, y] & (Byte)Direction.East) != 0)
-            {
-              blockmaze[2 * x + 2, 2 * y + 1] = 0; 
-            }
-            else
-            {
-              blockmaze[2 * x + 2, 2 * y + 1] = 1;
-            }
-
-            if ((maze[x, y] & (Byte)Direction.South) != 0)
-            {
-              blockmaze[2 * x + 1, 2 * y + 2] = 0; 
-            }
-            else
-            {
-              blockmaze[2 * x + 1, 2 * y + 2] = 1;
-            }                    
-            blockmaze[2 * x + 2, 2 * y + 2] = 1;
+          blockmaze[2 * x + 1, 2 * y + 1] = 0;
+          if ((maze[x, y] & (Byte)Direction.East) != 0)
+          {
+            blockmaze[2 * x + 2, 2 * y + 1] = 0;
           }
+          else
+          {
+            blockmaze[2 * x + 2, 2 * y + 1] = 1;
+          }
+
+          if ((maze[x, y] & (Byte)Direction.South) != 0)
+          {
+            blockmaze[2 * x + 1, 2 * y + 2] = 0;
+          }
+          else
+          {
+            blockmaze[2 * x + 1, 2 * y + 2] = 1;
+          }
+          blockmaze[2 * x + 2, 2 * y + 2] = 1;
         }
+        }
+
+      //for (int j = 0; j < 11; j++)
+      //{
+      //  for (int i = 0; i < 11; i++)
+      //  {
+      //    blockmaze[j, i] = 1;
+      //  }
+      //}
       mazeArray = blockmaze;
       return blockmaze;
     }

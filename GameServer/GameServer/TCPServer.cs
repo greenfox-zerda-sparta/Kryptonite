@@ -26,7 +26,7 @@ namespace GameServer
       listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
       socketList = new List<Socket>();
       content = String.Empty;
-      mazeGen = new MazeGenerator(5,5);
+      mazeGen = new MazeGenerator(10,10);
       mazeGen.GenerateTWMaze_GrowingTree();
       mazeGen.LineToBlock();
       mazeGen.CreateMessage();

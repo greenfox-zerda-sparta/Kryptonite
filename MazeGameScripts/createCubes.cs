@@ -3,62 +3,100 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class createCubes : MonoBehaviour {
-  private static List<int> map;
-  private static int mapSize = 30;
-  private static int mapMatrix = mapSize * mapSize;
+  private static int mapSize = 10;
+  private static int mapMatrix = (mapSize +2) * (mapSize + 2);
+  public static int[] map = new int[200];
 
-  private static float xCoord = 0.5f;
-  private static float zCoord = 0.5f;
+  private static float xCoord = 1.5f;
+  private static float zCoord = 1.5f;
   private static float yCoord = 1f;
 
-  private static void fillTheMap()
+  private static GameObject cubeGreen;
+  private static GameObject cubeRed;
+
+  public Rect labelPosition;
+  string labelText;
+  public GUIStyle labelStyle;
+
+  public createCubes()
   {
-    map = new List<int>();
-    for (int i = 0; i < mapMatrix; i++)
+    cubeRed = Resources.Load("CubeRed") as GameObject;
+    cubeGreen = Resources.Load("CubeGreen") as GameObject;
+  }
+
+  private static bool isWall(int i)
+  {
+    return map[i] == 1;
+  }
+
+  private static void makeBoarder()
     {
-      map.Add(Random.Range(0, 2));
+    xCoord = 0.5f;
+    zCoord = 0.5f;
+    for (int i = 0; i < (mapSize + 2); i++)
+    {
+      GameObject border = Instantiate(cubeRed); 
+      border.transform.position = new Vector3(xCoord, yCoord, zCoord);
+      zCoord += 1;
     }
-  }
 
-  private static bool isWall(int i, int j)
-  {
-    return map[i * j] == 1;
-  }
+    zCoord = 0.5f;
+    xCoord = 0.5f + mapSize + 1;
+    for (int i = 0; i < (mapSize + 2); i++)
+    {
+      GameObject border = Instantiate(cubeRed);
+      border.transform.position = new Vector3(xCoord, yCoord, zCoord);
+      zCoord += 1;
+    }
 
-  private static bool isMapBoarder(int i, int j)
-  {
-    return (xCoord == 0.5 || zCoord == 0.5 || xCoord == mapSize - 0.5f || zCoord == mapSize - 0.5f);
+    zCoord = 0.5f;
+    xCoord = 1.5f;
+    for (int i = 0; i < mapSize; i++)
+    {
+      GameObject border = Instantiate(cubeRed);
+      border.transform.position = new Vector3(xCoord, yCoord, zCoord);
+      xCoord += 1;
+    }
+
+    zCoord = 0.5f + mapSize + 1;
+    xCoord = 1.5f;
+    for (int i = 0; i < mapSize; i++)
+    {
+      GameObject border = Instantiate(cubeRed);
+      border.transform.position = new Vector3(xCoord, yCoord, zCoord);
+      xCoord += 1;
+    }
   }
 
   void Start() {
-
-    fillTheMap();
-
     GameObject mapBase = Resources.Load("Base") as GameObject;
     GameObject mapbasic = Instantiate(mapBase);
-    mapbasic.transform.position = new Vector3(mapSize / 2, 0, mapSize / 2);
-    mapbasic.transform.localScale = new Vector3(mapSize, 1, mapSize);
+    mapbasic.transform.position = new Vector3(6, 0, 6);
+    mapbasic.transform.localScale = new Vector3(12, 1, 12);
+  }
 
-    GameObject cubeGreen = Resources.Load("CubeGreen") as GameObject;
-    GameObject cubeRed = Resources.Load("CubeRed") as GameObject;
+  public static void makeMap() { 
+    makeBoarder();
+    xCoord = 1.5f;
+    zCoord = 1.5f;
 
-    for (int j = 0; j < mapSize; j++)
-    {
-      for (int i = 0; i < mapSize; i++)
+    for (int i = 0; i < mapSize * mapSize; i++)
+    {   
+      if (i % mapSize == 0 && i != 0)
       {
-        if (isMapBoarder(i, j))
-        {
-          GameObject wall = Instantiate(cubeRed);
-          wall.transform.position = new Vector3(xCoord, yCoord, zCoord);
-        }
-        else if (isWall(i, j))  {
-          GameObject wall = Instantiate(cubeGreen);
-          wall.transform.position = new Vector3(xCoord, yCoord, zCoord);
-        }
-        xCoord += 1;
+        xCoord = 1.5f;
+        zCoord += 1;
       }
-      xCoord = 0.5f;
-      zCoord += 1;
+      if (isWall(i))
+      {
+        GameObject wall = Instantiate(cubeGreen);
+        wall.transform.position = new Vector3(xCoord, yCoord, zCoord);
+      }
+      xCoord += 1;
     }
-	}
+  }
+  void OnGUI()
+  {
+    GUI.Label(labelPosition, labelText, labelStyle);
+  }
 }
