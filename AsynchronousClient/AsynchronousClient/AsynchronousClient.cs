@@ -7,7 +7,7 @@ using System.Text;
 namespace AsynchronousClient {
   public class AsynchronousClient {
     // The port number for the remote device.
-    private const int port = 11000;
+    private const int port = 5555;
 
     // ManualResetEvent instances signal completion.
     private static ManualResetEvent connectDone =
@@ -27,7 +27,7 @@ namespace AsynchronousClient {
       try
       {
         IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-        IPAddress ipAddress = ipHostInfo.AddressList[3];
+        IPAddress ipAddress = IPAddress.Parse("10.27.99.213");
         IPEndPoint remoteEP = new IPEndPoint(ipAddress, port);
 
         Socket client = new Socket(AddressFamily.InterNetwork,
