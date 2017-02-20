@@ -2,7 +2,6 @@ using System.Text;
 using System.Net.Sockets;
 
 namespace GameServer {
-
   public class StateObject {
     public Socket workSocket = null;
     public const int BufferSize = 1024;
@@ -14,5 +13,7 @@ namespace GameServer {
     Message,
     Maze,
     Trap,
+    TrapPosition,
+    MazeIsReceived,
   }
 }

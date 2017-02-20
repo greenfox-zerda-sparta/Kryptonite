@@ -1,58 +1,105 @@
 using System;
+using System.Collections.Generic;
 
 namespace GameServer {
   class TrapGenerator {
-    //a mazeArrayt és a meretet majd bekerjuk persze a mazegeneratortol, addig is: :)
-    private const int NUMBER_OF_ROWS = 20;
-    private const int NUMBER_OF_COLOUMNS = 20;
-    private const int WALL_ID = 1;
-    private const int TRAP_ID = 2;
-    private const int RAND_MINIMUM = 0;
-    private const int RAND_MAXIMUM_FOR_ROWS = NUMBER_OF_ROWS;
-    private const int RAND_MAXIMUM_FOR_COLOUMNS = NUMBER_OF_COLOUMNS;
-    private const double PERCENIGE_FOR_NUMBER_OF_TRAPS = 0.05;
-    private byte[,] mazeArray = new byte[NUMBER_OF_ROWS,NUMBER_OF_COLOUMNS];
-    private Random ran = new Random();
+    private byte[,] trapArray = new byte[Utility.NUMBER_OF_ROWS, Utility.NUMBER_OF_COLOUMNS];
+    private List<byte> trapList;
+    private byte[] trapMessageArray;
+    private List<byte> wallList;
 
-    public TrapGenerator()
+    public byte[] TrapMessageArray
     {
-      GenerateTraps(); 
-    }
-
-    //amig nincs meg Danitol a palya :)
-    private void FillMazeArray()
-    {
-      for (int row = 0; row < NUMBER_OF_ROWS; row++)
+      get
       {
-        for (int column = 0; column < NUMBER_OF_COLOUMNS; column++)
-        {
-          mazeArray[row, column] = Convert.ToByte(ran.Next(RAND_MINIMUM, 2));
-        }
+        return trapMessageArray;
+      }
+
+      set
+      {
+        trapMessageArray = value;
       }
     }
 
-    private void GenerateTraps()
+    public List<byte> TrapList
     {
-      FillMazeArray();
+      get
+      {
+        return trapList;
+      }
+
+      set
+      {
+        trapList = value;
+      }
+    }
+
+    public TrapGenerator(List<byte> wallList)
+    {
+      TrapList = new List<byte>();
+      this.wallList = wallList;
+      GenerateTrapsFromMazeList();
+    }
+
+   
+    private void GenerateTrapsFromMazeList()
+    {
       int number_of_traps = CountNumberOfTraps();
       int created_traps = 0;
       {
         do
         {
-          int i = ran.Next(RAND_MINIMUM, RAND_MAXIMUM_FOR_ROWS);
-          int j = ran.Next(RAND_MINIMUM, RAND_MAXIMUM_FOR_COLOUMNS);
-          if (mazeArray[i, j] == WALL_ID)
+          int i = Utility.ran.Next(Utility.RAND_MINIMUM, Utility.RAND_MAXIMUM_FOR_ROWS * Utility.RAND_MAXIMUM_FOR_COLOUMNS);
+          if (wallList[i] == Utility.ROAD_ID)
           {
-            mazeArray[i, j] = TRAP_ID;
+            wallList[i] = Utility.TRAP_ID;
             created_traps++;
           }
         } while (created_traps != number_of_traps);
       }
+      CreateTrapList();
     }
 
     private int CountNumberOfTraps()
     {
-      return (int)(NUMBER_OF_ROWS * NUMBER_OF_COLOUMNS * PERCENIGE_FOR_NUMBER_OF_TRAPS);
+      return (int)(Utility.NUMBER_OF_ROWS * Utility.NUMBER_OF_COLOUMNS * Utility.PERCENIGE_FOR_NUMBER_OF_TRAPS);
+    }
+
+    private void CreateTrapList()
+    {
+      foreach (var item in wallList)
+      {
+        if (item == 2)
+        {
+          TrapList.Add(1);
+        }
+        else
+        {
+          TrapList.Add(0);
+        }
+      }
+    }
+
+    public byte[] CreateMessage()
+    {
+      TrapMessageArray = new byte[(TrapList.Count / Utility.ONE_BYTE) + 1];
+      TrapMessageArray[0] = Convert.ToByte(TCPMessageID.TrapPosition);
+      string str = "";
+
+      try
+      {
+        str = Utility.CreateStringFromList(TrapList);
+      }
+      catch (NullReferenceException e)
+      {
+        Console.WriteLine(e);
+      }
+
+      for (int i = 0; i < TrapMessageArray.Length - 1; i++)
+      {
+        TrapMessageArray[i + 1] = Convert.ToByte(Utility.SplitStringToEightChar(str, i), 2);
+      }
+      return TrapMessageArray;
     }
   }
 }
