@@ -101,7 +101,7 @@ namespace GameServer {
 
     public byte[] CreateMessage()
     {
-      TrapMessageArray = new byte[(TrapList.Count / Utility.ONE_BYTE) + 1];
+      TrapMessageArray = new byte[57];
       TrapMessageArray[0] = Convert.ToByte(TCPMessageID.TrapPosition);
       string str = "";
 
