@@ -34,18 +34,18 @@ namespace GameServer {
       }
     }
 
-    public TrapGenerator(List<byte> wallList)
+    public TrapGenerator(byte[,] wallArrayWithPath)
     {
       TrapList = new List<byte>();
-      this.wallList = wallList;
+      wallList = Utility.TransformTwoDimensionalByteArrayToList(wallArrayWithPath);
       GenerateTrapsFromMazeList();
     }
 
    
     private void GenerateTrapsFromMazeList()
     {
-      int number_of_traps = CountNumberOfTraps();
-      int created_traps = 0;
+      int number_of_traps_outside_path = CountNumberOfTrapsOutsidePath();
+      int created_traps_outside_path = 0;
       {
         do
         {
@@ -53,16 +53,35 @@ namespace GameServer {
           if (wallList[i] == Utility.ROAD_ID)
           {
             wallList[i] = Utility.TRAP_ID;
-            created_traps++;
+            created_traps_outside_path++;
           }
-        } while (created_traps != number_of_traps);
+        } while (created_traps_outside_path != number_of_traps_outside_path);
+      }
+
+      int number_of_traps_on_path = CountNumberOfTrapsOnPath();
+      int created_traps_on_path = 0;
+      {
+        do
+        {
+          int i = Utility.ran.Next(Utility.RAND_MINIMUM, Utility.RAND_MAXIMUM_FOR_ROWS * Utility.RAND_MAXIMUM_FOR_COLOUMNS);
+          if (wallList[i] == Utility.ROAD_ID)
+          {
+            wallList[i] = Utility.PATH_ID;
+            created_traps_on_path++;
+          }
+        } while (created_traps_on_path != number_of_traps_on_path);
       }
       CreateTrapList();
     }
 
-    private int CountNumberOfTraps()
+    private int CountNumberOfTrapsOutsidePath()
     {
-      return (int)(Utility.NUMBER_OF_ROWS * Utility.NUMBER_OF_COLOUMNS * Utility.PERCENIGE_FOR_NUMBER_OF_TRAPS);
+      return (int)(Utility.NUMBER_OF_ROWS * Utility.NUMBER_OF_COLOUMNS * Utility.PERCENIGE_FOR_NUMBER_OF_TRAPS_OUTSIDE_PATH);
+    }
+
+    private int CountNumberOfTrapsOnPath()
+    {
+      return (int)(Utility.NUMBER_OF_ROWS * Utility.NUMBER_OF_COLOUMNS * Utility.PERCENIGE_FOR_NUMBER_OF_TRAPS_ON_PATH);
     }
 
     private void CreateTrapList()

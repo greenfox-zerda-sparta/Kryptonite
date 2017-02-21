@@ -2,21 +2,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GameServer {
   public static class Utility {
-    public const int NUMBER_OF_ROWS = 11;
-    public const int NUMBER_OF_COLOUMNS = 11;
+    public const int NUMBER_OF_ROWS = 21;
+    public const int NUMBER_OF_COLOUMNS = 21;
    // public const int SPACE_FOR_TRANSFORMED_LIST = NUMBER_OF_ROWS * NUMBER_OF_COLOUMNS / ONE_BYTE;
     public const int SPACE_FOR_MESSAGEID = 1;
     public const int ROAD_ID = 0;
     public const int TRAP_ID = 2;
+    public const int PATH_ID = 3;
     public const int ONE_BYTE = 8;
     public const int RAND_MINIMUM = 0;
     public const int RAND_MAXIMUM_FOR_ROWS = NUMBER_OF_ROWS;
     public const int RAND_MAXIMUM_FOR_COLOUMNS = NUMBER_OF_COLOUMNS;
-    public const double PERCENIGE_FOR_NUMBER_OF_TRAPS = 0.05;
+    public const double PERCENIGE_FOR_NUMBER_OF_TRAPS_OUTSIDE_PATH = 0.01;
+    public const double PERCENIGE_FOR_NUMBER_OF_TRAPS_ON_PATH = 0.005;
     public static Random ran = new Random();
 
     public static string CreateStringFromList(List<byte> list)

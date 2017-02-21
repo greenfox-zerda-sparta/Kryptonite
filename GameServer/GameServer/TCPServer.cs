@@ -14,6 +14,7 @@ namespace GameServer
     private static List<Socket> socketList;
     private static MazeGenerator mazeGen;
     private static TrapGenerator trapGen;
+    private static PathFinder pathFinder;
     private static IPEndPoint localEndPoint;
     private static Socket listener;
     private static string content;
@@ -30,7 +31,8 @@ namespace GameServer
       mazeGen.GenerateTWMaze_GrowingTree();
       mazeGen.LineToBlock();
       mazeGen.CreateMessage();
-      trapGen = new TrapGenerator(mazeGen.WallList);
+      pathFinder = new PathFinder(mazeGen.MazeArray);
+      trapGen = new TrapGenerator(pathFinder.MazePath);
     }
 
     public void Start()
