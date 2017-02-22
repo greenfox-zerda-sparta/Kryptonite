@@ -5,7 +5,7 @@ using System.Net.Sockets;
 
 public class UDPClientConnection : MonoBehaviour {
   private const int PORTNUMBER = 7777;
-  private const string IPADDRESS = "10.27.99.89";
+  private const string IPADDRESS = "10.27.99.186";
   public static Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
   public static IPAddress serverIPAddress = IPAddress.Parse(IPADDRESS);
   public static EndPoint serverEndPoint = new IPEndPoint(serverIPAddress, PORTNUMBER);
