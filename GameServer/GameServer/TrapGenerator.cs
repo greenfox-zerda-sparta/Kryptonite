@@ -3,10 +3,9 @@ using System.Collections.Generic;
 
 namespace GameServer {
   class TrapGenerator {
-    private byte[,] trapArray = new byte[Utility.NUMBER_OF_ROWS, Utility.NUMBER_OF_COLOUMNS];
     private List<byte> trapList;
     private byte[] trapMessageArray;
-    private List<byte> wallList;
+    private List<byte> wallListWithItemsAndTraps;
 
     public byte[] TrapMessageArray
     {
@@ -34,10 +33,10 @@ namespace GameServer {
       }
     }
 
-    public TrapGenerator(byte[,] wallArrayWithPath)
+    public TrapGenerator(List<byte> wallListWithItems)
     {
       TrapList = new List<byte>();
-      wallList = Utility.TransformTwoDimensionalByteArrayToList(wallArrayWithPath);
+      wallListWithItemsAndTraps = wallListWithItems;
       GenerateTrapsFromMazeList();
     }
 
@@ -50,9 +49,9 @@ namespace GameServer {
         do
         {
           int i = Utility.ran.Next(Utility.RAND_MINIMUM, Utility.RAND_MAXIMUM_FOR_ROWS * Utility.RAND_MAXIMUM_FOR_COLOUMNS);
-          if (wallList[i] == Utility.ROAD_ID && i != Utility.BEGINNING_POINT)
+          if (wallListWithItemsAndTraps[i] == Utility.ROAD_ID && i != Utility.BEGINNING_POINT)
           {
-            wallList[i] = Utility.TRAP_ID;
+            wallListWithItemsAndTraps[i] = Utility.TRAP_ID;
             created_traps_outside_path++;
           }
         } while (created_traps_outside_path != number_of_traps_outside_path);
@@ -64,9 +63,9 @@ namespace GameServer {
         do
         {
           int i = Utility.ran.Next(Utility.RAND_MINIMUM, Utility.RAND_MAXIMUM_FOR_ROWS * Utility.RAND_MAXIMUM_FOR_COLOUMNS);
-          if (wallList[i] == Utility.PATH_ID && i != Utility.BEGINNING_POINT)
+          if (wallListWithItemsAndTraps[i] == Utility.PATH_ID && i != Utility.BEGINNING_POINT)
           {
-            wallList[i] = Utility.TRAP_ID;
+            wallListWithItemsAndTraps[i] = Utility.TRAP_ID;
             created_traps_on_path++;
           }
         } while (created_traps_on_path != number_of_traps_on_path);
@@ -86,7 +85,7 @@ namespace GameServer {
 
     private void CreateTrapList()
     {
-      foreach (var item in wallList)
+      foreach (var item in wallListWithItemsAndTraps)
       {
         if (item == 2)
         {

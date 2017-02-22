@@ -34,7 +34,8 @@ namespace GameServer
       mazeGen.CreateMessage();
       pathFinder = new PathFinder(mazeGen.MazeArray);
       itemGen = new ItemGenerator(pathFinder.MazePath);
-      //trapGen = new TrapGenerator(pathFinder.MazePath);
+      //itemGen = new ItemGenerator(pathFinder.WallListWithPath);
+      trapGen = new TrapGenerator(itemGen.WallListWithPathAndItemsOnAndOutsidePath);
     }
 
     public void Start()
@@ -125,7 +126,7 @@ namespace GameServer
           PrintMessageToConsol();
           break;
         case TCPMessageID.MazeIsReceived:
-          Send(handler, itemGen.CreateMessage());
+          Send(handler, itemGen.ItemMessageArray);
           break;
         //case TCPMessageID.ItemPositionIsReceived:
         //  Send(handler, trapGen.CreateMessage());

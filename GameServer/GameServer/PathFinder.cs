@@ -13,7 +13,7 @@ namespace GameServer {
     private SearchParameters searchParameters;
     private bool[,] map;
     private byte[,] mazePath;
-
+   
     public byte[,] MazePath
     {
       get
