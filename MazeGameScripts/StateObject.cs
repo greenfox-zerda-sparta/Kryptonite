@@ -17,4 +17,6 @@ public enum TCPMessageID : byte {
   Message,
   Maze,
   Trap,
+  TrapPosition,
+  MazeIsReceived,
 }

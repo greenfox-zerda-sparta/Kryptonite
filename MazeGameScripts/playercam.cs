@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class playercam : MonoBehaviour {
   private const float Y_ANGLE_MIN = 15.0f;
-  private const float Y_ANGLE_MAX = 45.0f;
+  private const float Y_ANGLE_MAX = 91.0f;
 
   // private const float X_ANGLE_MIN = 0.0f;
   //private const float X_ANGLE_MAX = 45;
@@ -14,11 +14,11 @@ public class playercam : MonoBehaviour {
 
   public Camera cam;
 
-  private float distance = 30.0f;
-  private float currentX = 0.0f;
-  private float currentY = 0.0f;
+  private float distance = 5.0f;
+  private float currentX = 15.0f;
+  private float currentY = 60.0f;
   private float sensitivityX = 2.0f;
-  private float sensitivityY = 1.0f;
+  private float sensitivityY = 1.0f;  
 
   private void Start()
   {
@@ -28,8 +28,8 @@ public class playercam : MonoBehaviour {
 
   private void Update()
   {
-    currentX += Input.GetAxis("Mouse X");
-    currentY += Input.GetAxis("Mouse Y");
+    //currentX += Input.GetAxis("Mouse X");
+    //currentY += Input.GetAxis("Mouse Y");
 
     currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
   }

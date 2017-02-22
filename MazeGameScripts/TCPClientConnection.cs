@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Linq;
 using System.Collections;
@@ -13,9 +13,10 @@ public class TCPClientConnection : MonoBehaviour
 {
 
   private const int PORT = 5555;
-  private const string IPADDRESS = "10.27.99.89";
+  private const string IPADDRESS = "10.27.99.186";
 
-  public static BitArray b;
+  public static BitArray mapBitArray;
+  public static BitArray itemBitArray;
 
   private static ManualResetEvent connectDone = new ManualResetEvent(false);
   private static ManualResetEvent sendDone = new ManualResetEvent(false);
@@ -111,16 +112,24 @@ public class TCPClientConnection : MonoBehaviour
         switch (ID)
         {
           case TCPMessageID.Maze:
-            Send(TCPMessageID.Message, client, "I've received the mazeWalls!");
+            Send(TCPMessageID.Message, client, ("I've received the mazeWalls! " + bytesRead.ToString()));
+            Send(TCPMessageID.MazeIsReceived, client, "I've received the mazeWalls!");
             //remove the ID from the array
             state.buffer = state.buffer.Where((source, index) => index != 0).ToArray();
-            ConvertTheMessageToBits(state, bytesRead);
+            ConvertTheMessageToMap(state, bytesRead);
             break;
           case TCPMessageID.Trap:
             //remove the ID from the array
             state.buffer = state.buffer.Where((source, index) => index != 0).ToArray();
+            //write the healthpoint to the label
             state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
             response = state.sb.ToString(0, state.sb.Length - 6);
+            break;
+          case TCPMessageID.TrapPosition:
+            Send(TCPMessageID.Message, client, ("I've received the traps! " + bytesRead.ToString()));
+            //remove the ID from the array
+            state.buffer = state.buffer.Where((source, index) => index != 0).ToArray();
+            ConvertTheMessageToItem(state, bytesRead);
             break;
         }
         client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceiveCallback), state);
@@ -137,14 +146,25 @@ public class TCPClientConnection : MonoBehaviour
     }
   }
 
-  private void ConvertTheMessageToBits(StateObject state, int bytesRead)
+  private void ConvertTheMessageToMap(StateObject state, int bytesRead)
   {
     Array.Resize<byte>(ref state.buffer, bytesRead);
     if (BitConverter.IsLittleEndian)
     {
       Array.Reverse(state.buffer);
     }
-    b = new BitArray(state.buffer);
+    mapBitArray = new BitArray(state.buffer);
+    Array.Resize<byte>(ref state.buffer, StateObject.BufferSize);
+  }
+
+  private void ConvertTheMessageToItem(StateObject state, int bytesRead)
+  {
+    Array.Resize<byte>(ref state.buffer, bytesRead);
+    if (BitConverter.IsLittleEndian)
+    {
+      Array.Reverse(state.buffer);
+    }
+    itemBitArray = new BitArray(state.buffer);
     Array.Resize<byte>(ref state.buffer, StateObject.BufferSize);
   }
 }

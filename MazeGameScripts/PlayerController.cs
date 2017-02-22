@@ -5,16 +5,18 @@ public class PlayerController : MonoBehaviour {
   public Rigidbody rd;
   Vector3 spawnPosition = new Vector3(2.5f, 1, 2.5f);
 
-  public UDPClientConnection uc;
-  public TCPClientConnection tc;
+  private static int maxItems = 10;
+  private static int itemCounter;
+  private static bool isItemsCollected = false;
 
   public string lastPosition;
   public Rect labelPosition;
   string labelText;
   public GUIStyle labelStyle;
-  int healthPoint = 100;
-  bool youAreInATrap = false;
-  
+
+  public UDPClientConnection uc;
+  public TCPClientConnection tc;
+
   private void Awake()
   {
     lastPosition = "";
@@ -24,10 +26,14 @@ public class PlayerController : MonoBehaviour {
     uc.SendData("Player - Driver connected(UDP)");
     tc.Send(TCPMessageID.Message, tc.client, "Player - Driver connected(TCP)");
     tc.Receive(tc.client);
+    tc.Receive(tc.client);
+
   }
 
   private void Start()
   {
+    labelText = "Items: " + itemCounter.ToString();
+    labelStyle.fontSize = 24;
     
   }
 
@@ -49,13 +55,28 @@ public class PlayerController : MonoBehaviour {
       youAreInATrap = false;
     }
     */
-    if (!lastPosition.Equals((rd.position.x.ToString() + ";" + rd.position.z.ToString()))) {
-      uc.SendData(rd.position.x.ToString() + ";" + rd.position.z.ToString());
-      lastPosition = (rd.position.x.ToString() + ";" + rd.position.z.ToString());
+    //if (!lastPosition.Equals((rd.position.x.ToString() + ";" + rd.position.z.ToString()))) {
+    //  uc.SendData(rd.position.x.ToString() + ";" + rd.position.z.ToString());
+    //  lastPosition = (rd.position.x.ToString() + ";" + rd.position.z.ToString());
+    uc.SendData(rd.position.x.ToString() + ";" + rd.position.z.ToString());
+  }
+
+  private void OnTriggerEnter(Collider other)
+  {
+    if (other.gameObject.CompareTag("Pick Up"))
+    {
+      other.gameObject.SetActive(false);
+      itemCounter++;
+      labelText = "Items: " + itemCounter.ToString()  + " | " +  maxItems.ToString();
+      if (itemCounter == maxItems)
+      {
+        isItemsCollected = true;
+      }
     }
   }
 
-  void OnGUI() {
+    void OnGUI() {
+    labelStyle.normal.textColor = Color.white;
     GUI.Label(labelPosition, labelText, labelStyle);
   }
 }
