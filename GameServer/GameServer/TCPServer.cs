@@ -14,6 +14,7 @@ namespace GameServer
     private static List<Socket> socketList;
     private static MazeGenerator mazeGen;
     private static TrapGenerator trapGen;
+    private static ItemGenerator itemGen;
     private static PathFinder pathFinder;
     private static IPEndPoint localEndPoint;
     private static Socket listener;
@@ -32,7 +33,8 @@ namespace GameServer
       mazeGen.LineToBlock();
       mazeGen.CreateMessage();
       pathFinder = new PathFinder(mazeGen.MazeArray);
-      trapGen = new TrapGenerator(pathFinder.MazePath);
+      itemGen = new ItemGenerator(pathFinder.MazePath);
+      //trapGen = new TrapGenerator(pathFinder.MazePath);
     }
 
     public void Start()
@@ -123,11 +125,17 @@ namespace GameServer
           PrintMessageToConsol();
           break;
         case TCPMessageID.MazeIsReceived:
-          Send(handler, trapGen.CreateMessage());
+          Send(handler, itemGen.CreateMessage());
           break;
-        case TCPMessageID.Trap:
+        //case TCPMessageID.ItemPositionIsReceived:
+        //  Send(handler, trapGen.CreateMessage());
+        //  break;
+        case TCPMessageID.Item:
           SendMessageToTheOtherClients(handler);
           break;
+        //case TCPMessageID.Trap:
+        //  SendMessageToTheOtherClients(handler);
+        //  break;
       }
     }
 

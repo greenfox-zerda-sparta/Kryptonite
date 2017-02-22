@@ -12,8 +12,11 @@ namespace GameServer {
   public enum TCPMessageID {
     Message,
     Maze,
-    Trap,
-    TrapPosition,
+    Item,
+    ItemPosition,
     MazeIsReceived,
+    ItemPositionIsReceived,
+    Trap,
+    TrapPosition
   }
 }

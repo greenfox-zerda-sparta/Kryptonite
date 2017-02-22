@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ItemGenerator.cs" />
     <Compile Include="MazeGenerator.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="NodeState.cs" />

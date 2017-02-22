@@ -60,7 +60,7 @@ namespace GameServer {
 
     public byte[] CreateMessage()
     {
-      MazeMessageArray = new byte[57];
+      MazeMessageArray = new byte[Utility.MESSAGE_ARRAY_SIZE];
       wallList = Utility.TransformTwoDimensionalByteArrayToList(MazeArray);
       MazeMessageArray[0] = Convert.ToByte(TCPMessageID.Maze);
       string str = "";
