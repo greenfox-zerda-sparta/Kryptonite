@@ -45,32 +45,33 @@ namespace GameServer {
     private void GenerateTrapsFromMazeList()
     {
       int number_of_traps_outside_path = CountNumberOfTrapsOutsidePath();
-      int created_traps_outside_path = 0;
-      {
-        do
-        {
-          int i = Utility.ran.Next(Utility.RAND_MINIMUM, Utility.RAND_MAXIMUM_FOR_ROWS * Utility.RAND_MAXIMUM_FOR_COLOUMNS);
-          if (wallList[i] == Utility.ROAD_ID)
-          {
-            wallList[i] = Utility.TRAP_ID;
-            created_traps_outside_path++;
-          }
-        } while (created_traps_outside_path != number_of_traps_outside_path);
-      }
+      //int created_traps_outside_path = 0;
+      //{
+      //  do
+      //  {
+      //    int i = Utility.ran.Next(Utility.RAND_MINIMUM, Utility.RAND_MAXIMUM_FOR_ROWS * Utility.RAND_MAXIMUM_FOR_COLOUMNS);
+      //    if (wallList[i] == Utility.ROAD_ID)
+      //    {
+      //      wallList[i] = Utility.TRAP_ID;
+      //      created_traps_outside_path++;
+      //    }
+      //  } while (created_traps_outside_path != number_of_traps_outside_path);
+      //}
 
-      int number_of_traps_on_path = CountNumberOfTrapsOnPath();
-      int created_traps_on_path = 0;
-      {
-        do
-        {
-          int i = Utility.ran.Next(Utility.RAND_MINIMUM, Utility.RAND_MAXIMUM_FOR_ROWS * Utility.RAND_MAXIMUM_FOR_COLOUMNS);
-          if (wallList[i] == Utility.ROAD_ID)
-          {
-            wallList[i] = Utility.PATH_ID;
-            created_traps_on_path++;
-          }
-        } while (created_traps_on_path != number_of_traps_on_path);
-      }
+      //int number_of_traps_on_path = CountNumberOfTrapsOnPath();
+      //int created_traps_on_path = 0;
+      //{
+      //  do
+      //  {
+      //    int i = Utility.ran.Next(Utility.RAND_MINIMUM, Utility.RAND_MAXIMUM_FOR_ROWS * Utility.RAND_MAXIMUM_FOR_COLOUMNS);
+      //    if (wallList[i] == Utility.PATH_ID)
+      //    {
+      //      wallList[i] = Utility.TRAP_ID;
+      //      created_traps_on_path++;
+      //    }
+      //  } while (created_traps_on_path != number_of_traps_on_path);
+      //}
+      wallList[1] = Utility.TRAP_ID;
       CreateTrapList();
     }
 
