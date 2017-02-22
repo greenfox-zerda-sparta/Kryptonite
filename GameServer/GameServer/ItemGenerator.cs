@@ -91,7 +91,7 @@ namespace GameServer {
     {
       foreach (var item in wallList)
       {
-        if (item == 4)
+        if (item == Utility.ITEM_ID)
         {
           ItemList.Add(1);
         }

@@ -19,8 +19,8 @@ namespace GameServer {
     public const int RAND_MAXIMUM_FOR_COLOUMNS = NUMBER_OF_COLOUMNS;
     public const double PERCENIGE_FOR_NUMBER_OF_TRAPS_OUTSIDE_PATH = 0.01;
     public const double PERCENIGE_FOR_NUMBER_OF_TRAPS_ON_PATH = 0.005;
-    public const double PERCENIGE_FOR_NUMBER_OF_ITEMS_OUTSIDE_PATH = 0.01;
-    public const double PERCENIGE_FOR_NUMBER_OF_ITEMS_ON_PATH = 0.005;
+    public const double PERCENIGE_FOR_NUMBER_OF_ITEMS_OUTSIDE_PATH = 0.02;
+    public const double PERCENIGE_FOR_NUMBER_OF_ITEMS_ON_PATH = 0.006;
     public const int BEGINNING_POINT = 418;
     public const int MESSAGE_ARRAY_SIZE = 57;
     public static Random ran = new Random();
