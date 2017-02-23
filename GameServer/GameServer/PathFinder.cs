@@ -27,11 +27,7 @@ namespace GameServer {
       }
     }
 
-    /// <summary>
-    /// Create a new instance of PathFinder
-    /// </summary>
-    /// <param name="searchParameters"></param>
-    public PathFinder(SearchParameters searchParameters)
+     public PathFinder(SearchParameters searchParameters)
     {
       this.searchParameters = searchParameters;
       InitializeNodes(searchParameters.Map);
@@ -43,6 +39,7 @@ namespace GameServer {
     public PathFinder(byte[,] blockmaze)
     {
       CreateBoolArray(blockmaze);
+      FindMazePath();
     }
 
     private void CreateBoolArray(byte[,] blockmaze)
@@ -63,12 +60,16 @@ namespace GameServer {
           }
         }
       }
+    }
+
+    private void FindMazePath()
+    {
       var startLocation = new Point(1, 1);
       var endLocation = new Point(19, 19);
       this.searchParameters = new SearchParameters(startLocation, endLocation, map);
       PathFinder pathFinder = new PathFinder(searchParameters);
       List<Point> path = pathFinder.FindPath();
-      
+
       for (UInt16 y = 0; y < mazePath.GetLength(1); y++)
       {
         for (UInt16 x = 0; x < mazePath.GetLength(0); x++)
@@ -77,16 +78,14 @@ namespace GameServer {
           {
             mazePath[x, y] = 3;
           }
+          Console.Write(mazePath[x, y]);
         }
+        Console.WriteLine();
       }
     }
-    /// <summary>
-    /// Attempts to find a path from the start location to the end location based on the supplied SearchParameters
-    /// </summary>
-    /// <returns>A List of Points representing the path. If no path was found, the returned list is empty.</returns>
+   
     public List<Point> FindPath()
     {
-      // The start node is the first entry in the 'open' list
       List<Point> path = new List<Point>();
       bool success = Search(startNode);
       if (success)
@@ -98,18 +97,12 @@ namespace GameServer {
           path.Add(node.Location);
           node = node.ParentNode;
         }
-
         // Reverse the list so it's in the correct order when returned
         path.Reverse();
       }
-
       return path;
     }
 
-    /// <summary>
-    /// Builds the node grid from a simple grid of booleans indicating areas which are and aren't walkable
-    /// </summary>
-    /// <param name="map">A boolean representation of a grid in which true = walkable and false = not walkable</param>
     private void InitializeNodes(bool[,] map)
     {
       this.width = map.GetLength(0);
@@ -124,19 +117,12 @@ namespace GameServer {
       }
     }
 
-    /// <summary>
-    /// Attempts to find a path to the destination node using <paramref name="currentNode"/> as the starting location
-    /// </summary>
-    /// <param name="currentNode">The node from which to find a path</param>
-    /// <returns>True if a path to the destination has been found, otherwise false</returns>
     private bool Search(Node currentNode)
     {
       // Set the current node to Closed since it cannot be traversed more than once
       currentNode.State = NodeState.Closed;
       List<Node> nextNodes = GetAdjacentWalkableNodes(currentNode);
 
-      // Sort by F-value so that the shortest possible routes are considered first
-      nextNodes.Sort((node1, node2) => node1.F.CompareTo(node2.F));
       foreach (var nextNode in nextNodes)
       {
         // Check whether the end node has been reached
@@ -151,16 +137,10 @@ namespace GameServer {
             return true;
         }
       }
-
       // The method returns false if this path leads to be a dead end
       return false;
     }
 
-    /// <summary>
-    /// Returns any nodes that are adjacent to <paramref name="fromNode"/> and may be considered to form the next step in the path
-    /// </summary>
-    /// <param name="fromNode">The node from which to return the next possible nodes in the path</param>
-    /// <returns>A list of next possible nodes in the path</returns>
     private List<Node> GetAdjacentWalkableNodes(Node fromNode)
     {
       List<Node> walkableNodes = new List<Node>();
@@ -187,13 +167,8 @@ namespace GameServer {
         // Already-open nodes are only added to the list if their G-value is lower going via this route.
         if (node.State == NodeState.Open)
         {
-          float traversalCost = Node.GetTraversalCost(node.Location, node.ParentNode.Location);
-          float gTemp = fromNode.G + traversalCost;
-          if (gTemp < node.G)
-          {
             node.ParentNode = fromNode;
             walkableNodes.Add(node);
-          }
         }
         else
         {
@@ -203,15 +178,9 @@ namespace GameServer {
           walkableNodes.Add(node);
         }
       }
-
       return walkableNodes;
     }
 
-    /// <summary>
-    /// Returns the eight locations immediately adjacent (orthogonally and diagonally) to <paramref name="fromLocation"/>
-    /// </summary>
-    /// <param name="fromLocation">The location from which to return all adjacent points</param>
-    /// <returns>The locations as an IEnumerable of Points</returns>
     private static IEnumerable<Point> GetAdjacentLocations(Point fromLocation)
     {
       return new Point[]

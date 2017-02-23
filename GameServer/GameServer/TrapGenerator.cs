@@ -1,123 +1,28 @@
-using System;
 using System.Collections.Generic;
 
 namespace GameServer {
   class TrapGenerator {
-    private List<byte> trapList;
+    private List<byte> trapList = new List<byte>();
+    private List<byte> wallListWithPathAndItems = new List<byte>();
+    private List<byte> wallListWithPathAndItemsAndTrapsOutsidePath = new List<byte>();
+    private List<byte> wallListWithPathAndItemsAndTrapsOnAndOutsidePath = new List<byte>();
     private byte[] trapMessageArray;
-    private List<byte> wallListWithItemsAndTraps;
-
+   
     public byte[] TrapMessageArray
     {
       get
       {
         return trapMessageArray;
       }
-
-      set
-      {
-        trapMessageArray = value;
-      }
     }
 
-    public List<byte> TrapList
+    public TrapGenerator(List<byte> wallListWithPathAndItems)
     {
-      get
-      {
-        return trapList;
-      }
-
-      set
-      {
-        trapList = value;
-      }
-    }
-
-    public TrapGenerator(List<byte> wallListWithItems)
-    {
-      TrapList = new List<byte>();
-      wallListWithItemsAndTraps = wallListWithItems;
-      GenerateTrapsFromMazeList();
-    }
-
-   
-    private void GenerateTrapsFromMazeList()
-    {
-      int number_of_traps_outside_path = CountNumberOfTrapsOutsidePath();
-      int created_traps_outside_path = 0;
-      {
-        do
-        {
-          int i = Utility.ran.Next(Utility.RAND_MINIMUM, Utility.RAND_MAXIMUM_FOR_ROWS * Utility.RAND_MAXIMUM_FOR_COLOUMNS);
-          if (wallListWithItemsAndTraps[i] == Utility.ROAD_ID && i != Utility.BEGINNING_POINT)
-          {
-            wallListWithItemsAndTraps[i] = Utility.TRAP_ID;
-            created_traps_outside_path++;
-          }
-        } while (created_traps_outside_path != number_of_traps_outside_path);
-      }
-
-      int number_of_traps_on_path = CountNumberOfTrapsOnPath();
-      int created_traps_on_path = 0;
-      {
-        do
-        {
-          int i = Utility.ran.Next(Utility.RAND_MINIMUM, Utility.RAND_MAXIMUM_FOR_ROWS * Utility.RAND_MAXIMUM_FOR_COLOUMNS);
-          if (wallListWithItemsAndTraps[i] == Utility.PATH_ID && i != Utility.BEGINNING_POINT)
-          {
-            wallListWithItemsAndTraps[i] = Utility.TRAP_ID;
-            created_traps_on_path++;
-          }
-        } while (created_traps_on_path != number_of_traps_on_path);
-      }
-      CreateTrapList();
-    }
-
-    private int CountNumberOfTrapsOutsidePath()
-    {
-      return (int)(Utility.NUMBER_OF_ROWS * Utility.NUMBER_OF_COLOUMNS * Utility.PERCENIGE_FOR_NUMBER_OF_TRAPS_OUTSIDE_PATH);
-    }
-
-    private int CountNumberOfTrapsOnPath()
-    {
-      return (int)(Utility.NUMBER_OF_ROWS * Utility.NUMBER_OF_COLOUMNS * Utility.PERCENIGE_FOR_NUMBER_OF_TRAPS_ON_PATH);
-    }
-
-    private void CreateTrapList()
-    {
-      foreach (var item in wallListWithItemsAndTraps)
-      {
-        if (item == 2)
-        {
-          TrapList.Add(1);
-        }
-        else
-        {
-          TrapList.Add(0);
-        }
-      }
-    }
-
-    public byte[] CreateMessage()
-    {
-      TrapMessageArray = new byte[Utility.MESSAGE_ARRAY_SIZE];
-      TrapMessageArray[0] = Convert.ToByte(TCPMessageID.TrapPosition);
-      string str = "";
-
-      try
-      {
-        str = Utility.CreateStringFromList(TrapList);
-      }
-      catch (NullReferenceException e)
-      {
-        Console.WriteLine(e);
-      }
-
-      for (int i = 0; i < TrapMessageArray.Length - 1; i++)
-      {
-        TrapMessageArray[i + 1] = Convert.ToByte(Utility.SplitStringToEightChar(str, i), 2);
-      }
-      return TrapMessageArray;
+      this.wallListWithPathAndItems = wallListWithPathAndItems;
+      wallListWithPathAndItemsAndTrapsOutsidePath = Utility.GenerateThings(Utility.PERCENIGE_FOR_NUMBER_OF_TRAPS_OUTSIDE_PATH, wallListWithPathAndItems, Utility.ROAD_ID, Utility.TRAP_ID);
+      wallListWithPathAndItemsAndTrapsOnAndOutsidePath = Utility.GenerateThings(Utility.PERCENIGE_FOR_NUMBER_OF_TRAPS_ON_PATH, wallListWithPathAndItemsAndTrapsOutsidePath, Utility.PATH_ID, Utility.TRAP_ID);
+      trapList = Utility.CreateListForMessage(wallListWithPathAndItemsAndTrapsOnAndOutsidePath, Utility.TRAP_ID);
+      trapMessageArray = Utility.CreateMessage(TCPMessageID.TrapPosition, trapList);
     }
   }
 }

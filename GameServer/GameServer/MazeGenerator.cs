@@ -88,208 +88,208 @@ namespace GameServer {
     }
    
 
-      public MazeGenerator(UInt16 width, UInt16 length, UInt16 startx = 0, UInt16 starty = 0)
-      {
+    public MazeGenerator(UInt16 width, UInt16 length, UInt16 startx = 0, UInt16 starty = 0)
+    {
            
-          this.width = width;
-          this.height = height;
+        this.width = width;
+        this.height = height;
 
-          maze = BuildBaseMaze(width, length);
-      }
-
-
-      public void cell(UInt16 x, UInt16 y, byte value = 0)
-      {
-          if (x <= this.width && y <= this.height)
-          {
-              maze[x, y] = value;
-          }
-      }
+        maze = BuildBaseMaze(width, length);
+    }
 
 
-      public Byte[,] BuildBaseMaze(UInt16 width, UInt16 length)
-      {
-          Byte[,] maze = new Byte[width, length];
-          return maze;
-      }
-
-
-      public void dumpMaze()
-      {
-          if (maze != null)
-          {
-              for (UInt16 y = 0; y < maze.GetLength(1); y++)
-              {
-                  string xline = string.Empty;
-
-                  for (UInt16 x = 0; x < maze.GetLength(0); x++)
-                  {
-                      xline += ' ' + maze[x, y].ToString();
-                  }
-              }
-          }
-      }
-
-
-      public List<UInt16[]> GenerateTWMaze_GrowingTree()
-      {
-          List<UInt16[]> CarvedMaze = new List<UInt16[]>();
-          List<UInt16[]> cells = new List<UInt16[]>();
-
-          Array DirectionArray = Enum.GetValues(typeof(Direction));
-            
-          UInt16 x = (Byte)(random.Next(maze.GetLength(0) - 1) + 1);
-          UInt16 y = (Byte)(random.Next(maze.GetLength(1) - 1) + 1);
-          Int16 nx;
-          Int16 ny;
-
-          CarvedMaze.Add(new UInt16[3] { x, y, 1 });
-
-          cells.Add(new UInt16[2] { x, y });
-
-          while (cells.Count > 0)
-          {
-              Int16 index = (Int16)chooseIndex((UInt16)cells.Count, PickMethod.Newest);
-              UInt16[] cell_picked = cells[index];
-
-              x = cell_picked[0];
-              y = cell_picked[1];
-              CarvedMaze.Add(new UInt16[3] { x, y, 1 });
-
-              Direction[] tmpdir = RandomizeDirection();
-
-              foreach (Direction way in tmpdir)
-              {
-                  SByte[] move = DoAStep(way);
-
-                  nx = (Int16)(x + move[0]);
-                  ny = (Int16)(y + move[1]);
-
-                  if (nx >= 0 && ny >= 0 && nx < maze.GetLength(0) && ny < maze.GetLength(1) && maze[nx, ny] == 0)
-                  {
-                      CarvedMaze.Add(new UInt16[3] { (UInt16)nx, (UInt16)ny, 2 });
-                      maze[x, y] |= (byte)way;
-                      maze[nx, ny] |= (byte)OppositeDirection(way);
-                      cells.Add(new UInt16[2] { (UInt16)nx, (UInt16)ny });
-
-                      index = -1;
-                        CarvedMaze.Add(new UInt16[3] { (UInt16)nx, (UInt16)ny, 3 });
-                      break;
-                  }
-              }
-
-              if (index != -1)
-              {
-                  UInt16[] cell_removed = cells[index];
-
-                  cells.RemoveAt(index);
-                  CarvedMaze.Add(new UInt16[3] { (UInt16)x, (UInt16)y, 4 });
-              }
-          }
-          return CarvedMaze;
-      }
-
-
-      public UInt16 chooseIndex(UInt16 max, PickMethod pickmet)
-      {
-          UInt16 index = 0;
-
-          switch (pickmet)
-          {
-              case PickMethod.Cyclic:
-                  CyclePick = (UInt16)((CyclePick + 1) % max);
-                  index = CyclePick;
-                  break;
-
-              case PickMethod.Random:
-                  Random random = new Random((int)DateTime.Now.Ticks & (0x0000FFFF));
-                  index = (UInt16)(random.Next(max - 1));
-                  break;
-
-              case PickMethod.Oldest:
-                  index = 0;
-                  break;
-
-              case PickMethod.Newest:
-              default:
-                  if (max >= 1)
-                  {
-                      index = (UInt16)(max - 1);
-                  }
-                  else
-                  {
-                      index = 0;
-                  }
-
-                  break;
-          }
-          return index;
-      }
-
-
-      public Direction chooseARandomDirection()
-      {
-          Direction randir;
-
-          var EnumToArray = Enum.GetValues(typeof(Direction));
-          Byte tmp1 = (Byte)(random.Next(EnumToArray.Length - 1));
-          randir = (Direction)EnumToArray.GetValue(tmp1);
-
-          return randir;
-      }
-
-
-      public Direction[] RandomizeDirection()
-      {
-          Direction[] randir;
-
-          Array tmparray = Enum.GetValues(typeof(Direction));
-
-          randir = (Direction[])tmparray;
-
-          Shuffle<Direction>(randir);
-
-          return randir;
-      }
-
-
-      // comes from http://www.dotnetperls.com/fisher-yates-shuffle
-      private void Shuffle<T>(T[] array)
-      {
-          int n = array.Length;
-
-          for (int i = 0; i < n; i++)
-          {
-              int r = i + (int)(random.NextDouble() * (n - i));
-              T t = array[r];
-              array[r] = array[i];
-              array[i] = t;
-          }
-      }
-
-
-      public Direction OppositeDirection(Direction forward)
-      {
-          Direction opposite = Direction.North;
-
-        switch (forward)
+    public void cell(UInt16 x, UInt16 y, byte value = 0)
+    {
+        if (x <= this.width && y <= this.height)
         {
-          case Direction.North:
-              opposite = Direction.South;
-              break;
-          case Direction.South:
-              opposite = Direction.North;
-              break;
-          case Direction.East:
-              opposite = Direction.West;
-              break;
-          case Direction.West:
-              opposite = Direction.East;
-              break;
+            maze[x, y] = value;
         }
+    }
 
-        return opposite;
+
+    public Byte[,] BuildBaseMaze(UInt16 width, UInt16 length)
+    {
+        Byte[,] maze = new Byte[width, length];
+        return maze;
+    }
+
+
+    public void dumpMaze()
+    {
+        if (maze != null)
+        {
+            for (UInt16 y = 0; y < maze.GetLength(1); y++)
+            {
+                string xline = string.Empty;
+
+                for (UInt16 x = 0; x < maze.GetLength(0); x++)
+                {
+                    xline += ' ' + maze[x, y].ToString();
+                }
+            }
+        }
+    }
+
+
+    public List<UInt16[]> GenerateTWMaze_GrowingTree()
+    {
+        List<UInt16[]> CarvedMaze = new List<UInt16[]>();
+        List<UInt16[]> cells = new List<UInt16[]>();
+
+        Array DirectionArray = Enum.GetValues(typeof(Direction));
+            
+        UInt16 x = (Byte)(random.Next(maze.GetLength(0) - 1) + 1);
+        UInt16 y = (Byte)(random.Next(maze.GetLength(1) - 1) + 1);
+        Int16 nx;
+        Int16 ny;
+
+        CarvedMaze.Add(new UInt16[3] { x, y, 1 });
+
+        cells.Add(new UInt16[2] { x, y });
+
+        while (cells.Count > 0)
+        {
+            Int16 index = (Int16)chooseIndex((UInt16)cells.Count, PickMethod.Newest);
+            UInt16[] cell_picked = cells[index];
+
+            x = cell_picked[0];
+            y = cell_picked[1];
+            CarvedMaze.Add(new UInt16[3] { x, y, 1 });
+
+            Direction[] tmpdir = RandomizeDirection();
+
+            foreach (Direction way in tmpdir)
+            {
+                SByte[] move = DoAStep(way);
+
+                nx = (Int16)(x + move[0]);
+                ny = (Int16)(y + move[1]);
+
+                if (nx >= 0 && ny >= 0 && nx < maze.GetLength(0) && ny < maze.GetLength(1) && maze[nx, ny] == 0)
+                {
+                    CarvedMaze.Add(new UInt16[3] { (UInt16)nx, (UInt16)ny, 2 });
+                    maze[x, y] |= (byte)way;
+                    maze[nx, ny] |= (byte)OppositeDirection(way);
+                    cells.Add(new UInt16[2] { (UInt16)nx, (UInt16)ny });
+
+                    index = -1;
+                      CarvedMaze.Add(new UInt16[3] { (UInt16)nx, (UInt16)ny, 3 });
+                    break;
+                }
+            }
+
+            if (index != -1)
+            {
+                UInt16[] cell_removed = cells[index];
+
+                cells.RemoveAt(index);
+                CarvedMaze.Add(new UInt16[3] { (UInt16)x, (UInt16)y, 4 });
+            }
+        }
+        return CarvedMaze;
+    }
+
+
+    public UInt16 chooseIndex(UInt16 max, PickMethod pickmet)
+    {
+        UInt16 index = 0;
+
+        switch (pickmet)
+        {
+            case PickMethod.Cyclic:
+                CyclePick = (UInt16)((CyclePick + 1) % max);
+                index = CyclePick;
+                break;
+
+            case PickMethod.Random:
+                Random random = new Random((int)DateTime.Now.Ticks & (0x0000FFFF));
+                index = (UInt16)(random.Next(max - 1));
+                break;
+
+            case PickMethod.Oldest:
+                index = 0;
+                break;
+
+            case PickMethod.Newest:
+            default:
+                if (max >= 1)
+                {
+                    index = (UInt16)(max - 1);
+                }
+                else
+                {
+                    index = 0;
+                }
+
+                break;
+        }
+        return index;
+    }
+
+
+    public Direction chooseARandomDirection()
+    {
+        Direction randir;
+
+        var EnumToArray = Enum.GetValues(typeof(Direction));
+        Byte tmp1 = (Byte)(random.Next(EnumToArray.Length - 1));
+        randir = (Direction)EnumToArray.GetValue(tmp1);
+
+        return randir;
+    }
+
+
+    public Direction[] RandomizeDirection()
+    {
+        Direction[] randir;
+
+        Array tmparray = Enum.GetValues(typeof(Direction));
+
+        randir = (Direction[])tmparray;
+
+        Shuffle<Direction>(randir);
+
+        return randir;
+    }
+
+
+    // comes from http://www.dotnetperls.com/fisher-yates-shuffle
+    private void Shuffle<T>(T[] array)
+    {
+        int n = array.Length;
+
+        for (int i = 0; i < n; i++)
+        {
+            int r = i + (int)(random.NextDouble() * (n - i));
+            T t = array[r];
+            array[r] = array[i];
+            array[i] = t;
+        }
+    }
+
+
+    public Direction OppositeDirection(Direction forward)
+    {
+        Direction opposite = Direction.North;
+
+      switch (forward)
+      {
+        case Direction.North:
+            opposite = Direction.South;
+            break;
+        case Direction.South:
+            opposite = Direction.North;
+            break;
+        case Direction.East:
+            opposite = Direction.West;
+            break;
+        case Direction.West:
+            opposite = Direction.East;
+            break;
       }
+
+      return opposite;
+    }
 
 
     public SByte[] DoAStep(Direction facingDirection)
@@ -344,26 +344,26 @@ namespace GameServer {
         {
           for (UInt16 x = 0; x < maze.GetLength(0); x++)
           {
-          blockmaze[2 * x + 1, 2 * y + 1] = 0;
-          if ((maze[x, y] & (Byte)Direction.East) != 0)
-          {
-            blockmaze[2 * x + 2, 2 * y + 1] = 0;
-          }
-          else
-          {
-            blockmaze[2 * x + 2, 2 * y + 1] = 1;
-          }
+            blockmaze[2 * x + 1, 2 * y + 1] = 0;
+              if ((maze[x, y] & (Byte)Direction.East) != 0)
+              {
+                blockmaze[2 * x + 2, 2 * y + 1] = 0;
+              }
+              else
+              {
+                blockmaze[2 * x + 2, 2 * y + 1] = 1;
+              }
 
-          if ((maze[x, y] & (Byte)Direction.South) != 0)
-          {
-            blockmaze[2 * x + 1, 2 * y + 2] = 0;
+              if ((maze[x, y] & (Byte)Direction.South) != 0)
+              {
+                blockmaze[2 * x + 1, 2 * y + 2] = 0;
+              }
+              else
+              {
+                blockmaze[2 * x + 1, 2 * y + 2] = 1;
+              }
+            blockmaze[2 * x + 2, 2 * y + 2] = 1;
           }
-          else
-          {
-            blockmaze[2 * x + 1, 2 * y + 2] = 1;
-          }
-          blockmaze[2 * x + 2, 2 * y + 2] = 1;
-        }
       }
 
       //for (int j = 0; j < 11; j++)
